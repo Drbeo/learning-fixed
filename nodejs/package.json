@@ -1,0 +1,35 @@
+{
+    "name": "study-nodejs",
+    "version": "0.0.1",
+    "author": "Drbeo",
+    "email": "",
+    "homepage": "https://github.com/Drbeo/",
+    "description": "重新学习nodejs",
+    "keywords": [
+        "nodejs",
+        "express"
+    ],
+    "license": "MIT",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Drbeo/learning-fixed/nodejs"
+    },
+    "bugs": {
+        "url": "https://github.com/Drbeo/learning-fixed/issues"
+    },
+    "main": "index.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "express": "^4.17.0"
+    },
+    "devDependencies": {},
+    "engines": {
+        "node": ">= 4.0.0",
+        "npm": ">= 3.0.0"
+    }
+}
+
+
