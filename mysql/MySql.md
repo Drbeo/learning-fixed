@@ -2,7 +2,10 @@
 ### 数据库相关概念
 1. DB：数据库，保存一组有组织的数据的容器
 2. DBMS: 数据库管理系统，管理DB中的数据
-3. SQL: 结构化查询语言，用于和DBMS通信的语言
+3. RDBMS: 指关系型数据库管理系统，全称 Relational Database Management System。
+4. SQL: 结构化查询语言，用于和DBMS通信的语言
+
+`MySQL` 记住总是选择`InnoDB`引擎就好了。
 
 ### MySQL有三大类数据类型
 * 数字类型
@@ -78,7 +81,13 @@
         2._BLOB存储的数据只能整体读出。
         
         3._TEXT可以指定字符集，_BLO不用指定字符集。
-        
+### 安装MySQL
+要在Windows或Mac上安装MySQL，首先从MySQL官方网站[下载最新的MySQL Community Server版本](https://dev.mysql.com/downloads/mysql/)
+
+选择对应的操作系统版本，下载安装即可。在安装过程中，MySQL会自动创建一个`root`用户，并提示输入`root`口令。
+
+要在Linux上安装MySQL，可以使用发行版的包管理器。例如，Debian和Ubuntu用户可以简单地通过命令·apt-get install mysql-server·安装最新的MySQL版本。
+
 ### 使用MySQL数据库
 * 登录到MySQL
 
@@ -279,32 +288,4 @@
     基本形式: `·`drop database 数据库名;`
     
     示例: 删除 samp_db 数据库: `drop database samp_db;`
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+   
