@@ -682,8 +682,17 @@ WHERE s.gender = 'M' AND t.id = 2;
 ```
 
 #### 连接查询
+```
+SELECT ... FROM tableA ??? JOIN tableB ON tableA.column1 = tableB.column2;
+```
+`JOIN`查询需要先确定主表，然后把另一个表的数据“附加”到结果集上；
 
-* 内连接`INNER JOIN`
+`INNER JOIN`是最常用的一种`JOIN`查询，它的语法是`SELECT ... FROM <表1> INNER JOIN <表2> ON <条件...>`；
+
+`JOIN`查询仍然可以使用`WHERE`条件和`ORDER BY`排序。
+
+
+* 内连接`INNER JOIN` 并集
 
     注意INNER JOIN查询的写法是：
     - 先确定主表，仍然使用`FROM <表1>`的语法；
@@ -707,7 +716,7 @@ WHERE s.gender = 'M' AND t.id = 2;
     5 rows in set (0.00 sec)
     ```
 * 外连接
-    - RIGHT OUTER JOIN
+    - RIGHT OUTER JOIN 右边加左边的交集
     ```
     SELECT s.id, s.name, s.class_id, c.name class_name, s.gender, s.score
     FROM students s
@@ -725,7 +734,7 @@ WHERE s.gender = 'M' AND t.id = 2;
     +------+-----------+----------+------------+--------+-------+
     6 rows in set (0.00 sec)
     ```
-    - LEFT OUTER JOIN
+    - LEFT OUTER JOIN 左边加右边的交集
     ```
     SELECT s.id, s.name, s.class_id, c.name class_name, s.gender, s.score
     FROM students s
@@ -743,7 +752,7 @@ WHERE s.gender = 'M' AND t.id = 2;
     +----+-----------+----------+------------+--------+-------+
     6 rows in set (0.00 sec)
     ```
-    - FULL OUTER JOIN
+    - FULL OUTER JOIN 并集
     ```
     -- mysql8.0不支持
     SELECT s.id, s.name, s.class_id, c.name class_name, s.gender, s.score
@@ -768,11 +777,91 @@ WHERE s.gender = 'M' AND t.id = 2;
     - `LEFT OUTER JOIN`则返回左表都存在的行。如果我们给`students`表增加一行，并添加`class_id=5`，由于`classes`表并不存在`id=5`的行，所以，`LEFT OUTER JOIN`的结果会增加一行，对应的`class_name`是`NULL`：
     
     - `FULL OUTER JOIN`它会把两张表的所有记录全部选择出来，并且，自动把对方不存在的列填充为`NULL`
-```
-SELECT ... FROM tableA ??? JOIN tableB ON tableA.column1 = tableB.column2;
-```
-`JOIN`查询需要先确定主表，然后把另一个表的数据“附加”到结果集上；
 
-`INNER JOIN`是最常用的一种`JOIN`查询，它的语法是`SELECT ... FROM <表1> INNER JOIN <表2> ON <条件...>`；
+#### 添加数据 insert 插入
+- 基础语法 
+```
+INSERT INTO <表名> (字段1, 字段2, ...) VALUES (值1, 值2, ...);
+```
+- 一次性添加一条记录
+```
+-- 插入一条数据并查看插入后的数据
+INSERT INTO students (class_id, name, gender, score) VALUES (2, '大牛', 'M', 80);
+SELECT * FROM students;
+```
+- 一次性添加多条记录
+```
+-- 插入多条数据并查看
+ INSERT INTO students (class_id, name, gender, score) VALUES
+  (1, '大宝', 'M', 87),
+  (2, '二宝', 'M', 81);
+  SELECT * FROM students;
+```
 
-`JOIN`查询仍然可以使用`WHERE`条件和`ORDER BY`排序。
+#### 修改数据 update 更新
+- 基础语法
+```
+UPDATE <表名> SET 字段1=值1, 字段2=值2, ... WHERE ...;
+```
+- 更新一条记录
+```
+UPDATE students SET name='大牛', score=66 WHERE id=1;
+-- 查询并观察结果:
+SELECT * FROM students WHERE id=1;
+```
+- 更新多条记录
+```
+UPDATE students SET name='小牛', score=77 WHERE id>=5 AND id<=7;
+-- 查询并观察结果:
+SELECT * FROM students;
+```
+- update可以使用表达式
+
+```
+UPDATE students SET score=score+10 WHERE score<80;
+-- 查询并观察结果:
+SELECT * FROM students;
+```
+- 更新不存在的数据不会报错，也不会有任何记录被更新。
+```
+UPDATE students SET score=100 WHERE id=999;
+-- 查询并观察结果:
+SELECT * FROM students;
+```
+- `**注意**` 不带WHERE条件的UPDATE语句会更新整个表的数据
+```
+UPDATE students SET score=60;
+```
+
+
+#### 修改数据 delete 删除
+- 基础语法
+```
+DELETE FROM <表名> WHERE ...;
+```
+- 一次删除一条
+```
+DELETE FROM students WHERE id=1;
+-- 查询并观察结果:
+SELECT * FROM students;
+```
+
+- 一次删除多条
+
+```
+DELETE FROM students WHERE id>=5 AND id<=7;
+-- 查询并观察结果:
+SELECT * FROM students;
+```
+
+- 删除不存在的数据不会报错 也不会有任何记录被删除。
+```
+DELETE FROM students WHERE id=999;
+-- 查询并观察结果:
+SELECT * FROM students;
+```
+- `**注意**` 不带WHERE条件的DELETE语句会删除整个表的数据
+
+```
+DELETE FROM students;
+```
