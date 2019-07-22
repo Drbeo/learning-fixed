@@ -115,6 +115,13 @@ ADD INDEX idx_name_score (name, score);
 
 ### 操作数据库
 
+#### 连接数据库
+
+* mysql
+远程 `mysql -h 主机名 -P 端口号默认3306 -D 数据库名 -u 用户名 -p` 例：`mysql -h 192.168.3.99 -P 3306 -D mydb -u root -p`
+本地`mysql -u 用户名 -p` 例：`mysql -u root -p`
+回车后输入数据库密码
+
 #### 列出所有数据库 `SHOW DATABASES;`
 
 ```
@@ -787,15 +794,47 @@ INSERT INTO <表名> (字段1, 字段2, ...) VALUES (值1, 值2, ...);
 ```
 -- 插入一条数据并查看插入后的数据
 INSERT INTO students (class_id, name, gender, score) VALUES (2, '大牛', 'M', 80);
+Query OK, 1 row affected (0.04 sec)
+
 SELECT * FROM students;
++----+-----------+------+----------+--------+-------+---------+
+| id | name      | sex  | class_id | gender | score | id_card |
++----+-----------+------+----------+--------+-------+---------+
+|  1 | 唐小婉    | 女   |        2 | F      |    99 | 111     |
+|  2 | 叶婧衣    | 女   |        3 | F      |    66 | 212     |
+|  3 | 叶凡      | 男   |        1 | M      |    98 | 122     |
+|  4 | 叶知秋    | 男   |        1 | M      |    98 | 123     |
+|  5 | 柳浮云    | 男   |        2 | M      |    97 | 124     |
+|  6 | 无名      | 男   |        5 | M      |    90 | 125     |
+|  7 | 大牛      | NULL |        2 | M      |    80 | NULL    |
++----+-----------+------+----------+--------+-------+---------+
+7 rows in set (0.00 sec)
 ```
 - 一次性添加多条记录
 ```
 -- 插入多条数据并查看
- INSERT INTO students (class_id, name, gender, score) VALUES
+INSERT INTO students (class_id, name, gender, score) VALUES
   (1, '大宝', 'M', 87),
   (2, '二宝', 'M', 81);
-  SELECT * FROM students;
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+SELECT * FROM students;
+  
++----+-----------+------+----------+--------+-------+---------+
+| id | name      | sex  | class_id | gender | score | id_card |
++----+-----------+------+----------+--------+-------+---------+
+|  1 | 唐小婉    | 女   |        2 | F      |    99 | 111     |
+|  2 | 叶婧衣    | 女   |        3 | F      |    66 | 212     |
+|  3 | 叶凡      | 男   |        1 | M      |    98 | 122     |
+|  4 | 叶知秋    | 男   |        1 | M      |    98 | 123     |
+|  5 | 柳浮云    | 男   |        2 | M      |    97 | 124     |
+|  6 | 无名      | 男   |        5 | M      |    90 | 125     |
+|  7 | 大牛      | NULL |        2 | M      |    80 | NULL    |
+|  8 | 大宝      | NULL |        1 | M      |    87 | NULL    |
+|  9 | 二宝      | NULL |        2 | M      |    81 | NULL    |
++----+-----------+------+----------+--------+-------+---------+
+9 rows in set (0.00 sec)
 ```
 
 #### 修改数据 update 更新
@@ -805,28 +844,86 @@ UPDATE <表名> SET 字段1=值1, 字段2=值2, ... WHERE ...;
 ```
 - 更新一条记录
 ```
-UPDATE students SET name='大牛', score=66 WHERE id=1;
+UPDATE students SET name='小牛', score=66 WHERE id=8;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
 -- 查询并观察结果:
-SELECT * FROM students WHERE id=1;
+SELECT * FROM students WHERE id=8;
++----+--------+------+----------+--------+-------+---------+
+| id | name   | sex  | class_id | gender | score | id_card |
++----+--------+------+----------+--------+-------+---------+
+|  8 | 小牛   | NULL |        1 | M      |    66 | NULL    |
++----+--------+------+----------+--------+-------+---------+
+1 row in set (0.00 sec)
 ```
 - 更新多条记录
 ```
-UPDATE students SET name='小牛', score=77 WHERE id>=5 AND id<=7;
+UPDATE students SET name='小牛', score=77 WHERE id>=8 AND id<=9;
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
 -- 查询并观察结果:
 SELECT * FROM students;
++----+-----------+------+----------+--------+-------+---------+
+| id | name      | sex  | class_id | gender | score | id_card |
++----+-----------+------+----------+--------+-------+---------+
+|  1 | 唐小婉    | 女   |        2 | F      |    99 | 111     |
+|  2 | 叶婧衣    | 女   |        3 | F      |    66 | 212     |
+|  3 | 叶凡      | 男   |        1 | M      |    98 | 122     |
+|  4 | 叶知秋    | 男   |        1 | M      |    98 | 123     |
+|  5 | 柳浮云    | 男   |        2 | M      |    97 | 124     |
+|  6 | 无名      | 男   |        5 | M      |    90 | 125     |
+|  7 | 大牛      | NULL |        2 | M      |    80 | NULL    |
+|  8 | 小牛      | NULL |        1 | M      |    77 | NULL    |
+|  9 | 小牛      | NULL |        2 | M      |    77 | NULL    |
++----+-----------+------+----------+--------+-------+---------+
+9 rows in set (0.00 sec)
 ```
 - update可以使用表达式
 
 ```
 UPDATE students SET score=score+10 WHERE score<80;
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
 -- 查询并观察结果:
 SELECT * FROM students;
++----+-----------+------+----------+--------+-------+---------+
+| id | name      | sex  | class_id | gender | score | id_card |
++----+-----------+------+----------+--------+-------+---------+
+|  1 | 唐小婉    | 女   |        2 | F      |    99 | 111     |
+|  2 | 叶婧衣    | 女   |        3 | F      |    76 | 212     |
+|  3 | 叶凡      | 男   |        1 | M      |    98 | 122     |
+|  4 | 叶知秋    | 男   |        1 | M      |    98 | 123     |
+|  5 | 柳浮云    | 男   |        2 | M      |    97 | 124     |
+|  6 | 无名      | 男   |        5 | M      |    90 | 125     |
+|  7 | 大牛      | NULL |        2 | M      |    80 | NULL    |
+|  8 | 小牛      | NULL |        1 | M      |    87 | NULL    |
+|  9 | 小牛      | NULL |        2 | M      |    87 | NULL    |
++----+-----------+------+----------+--------+-------+---------+
+9 rows in set (0.00 sec)
 ```
 - 更新不存在的数据不会报错，也不会有任何记录被更新。
 ```
 UPDATE students SET score=100 WHERE id=999;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
 -- 查询并观察结果:
 SELECT * FROM students;
++----+-----------+------+----------+--------+-------+---------+
+| id | name      | sex  | class_id | gender | score | id_card |
++----+-----------+------+----------+--------+-------+---------+
+|  1 | 唐小婉    | 女   |        2 | F      |    99 | 111     |
+|  2 | 叶婧衣    | 女   |        3 | F      |    76 | 212     |
+|  3 | 叶凡      | 男   |        1 | M      |    98 | 122     |
+|  4 | 叶知秋    | 男   |        1 | M      |    98 | 123     |
+|  5 | 柳浮云    | 男   |        2 | M      |    97 | 124     |
+|  6 | 无名      | 男   |        5 | M      |    90 | 125     |
+|  7 | 大牛      | NULL |        2 | M      |    80 | NULL    |
+|  8 | 小牛      | NULL |        1 | M      |    87 | NULL    |
+|  9 | 小牛      | NULL |        2 | M      |    87 | NULL    |
++----+-----------+------+----------+--------+-------+---------+
+9 rows in set (0.00 sec)
 ```
 - `**注意**` 不带WHERE条件的UPDATE语句会更新整个表的数据
 ```
@@ -841,24 +938,65 @@ DELETE FROM <表名> WHERE ...;
 ```
 - 一次删除一条
 ```
-DELETE FROM students WHERE id=1;
+DELETE FROM students WHERE id=8;
+Query OK, 1 row affected (0.02 sec)
+
 -- 查询并观察结果:
 SELECT * FROM students;
++----+-----------+------+----------+--------+-------+---------+
+| id | name      | sex  | class_id | gender | score | id_card |
++----+-----------+------+----------+--------+-------+---------+
+|  1 | 唐小婉    | 女   |        2 | F      |    99 | 111     |
+|  2 | 叶婧衣    | 女   |        3 | F      |    76 | 212     |
+|  3 | 叶凡      | 男   |        1 | M      |    98 | 122     |
+|  4 | 叶知秋    | 男   |        1 | M      |    98 | 123     |
+|  5 | 柳浮云    | 男   |        2 | M      |    97 | 124     |
+|  6 | 无名      | 男   |        5 | M      |    90 | 125     |
+|  7 | 大牛      | NULL |        2 | M      |    80 | NULL    |
+|  9 | 小牛      | NULL |        2 | M      |    87 | NULL    |
++----+-----------+------+----------+--------+-------+---------+
+8 rows in set (0.00 sec)
 ```
 
 - 一次删除多条
 
 ```
-DELETE FROM students WHERE id>=5 AND id<=7;
+DELETE FROM students WHERE id>=7 AND id<=9;
+Query OK, 2 rows affected (0.01 sec)
+
 -- 查询并观察结果:
 SELECT * FROM students;
++----+-----------+------+----------+--------+-------+---------+
+| id | name      | sex  | class_id | gender | score | id_card |
++----+-----------+------+----------+--------+-------+---------+
+|  1 | 唐小婉    | 女   |        2 | F      |    99 | 111     |
+|  2 | 叶婧衣    | 女   |        3 | F      |    76 | 212     |
+|  3 | 叶凡      | 男   |        1 | M      |    98 | 122     |
+|  4 | 叶知秋    | 男   |        1 | M      |    98 | 123     |
+|  5 | 柳浮云    | 男   |        2 | M      |    97 | 124     |
+|  6 | 无名      | 男   |        5 | M      |    90 | 125     |
++----+-----------+------+----------+--------+-------+---------+
+6 rows in set (0.00 sec)
 ```
 
 - 删除不存在的数据不会报错 也不会有任何记录被删除。
 ```
 DELETE FROM students WHERE id=999;
+Query OK, 0 rows affected (0.00 sec)
+
 -- 查询并观察结果:
 SELECT * FROM students;
++----+-----------+------+----------+--------+-------+---------+
+| id | name      | sex  | class_id | gender | score | id_card |
++----+-----------+------+----------+--------+-------+---------+
+|  1 | 唐小婉    | 女   |        2 | F      |    99 | 111     |
+|  2 | 叶婧衣    | 女   |        3 | F      |    76 | 212     |
+|  3 | 叶凡      | 男   |        1 | M      |    98 | 122     |
+|  4 | 叶知秋    | 男   |        1 | M      |    98 | 123     |
+|  5 | 柳浮云    | 男   |        2 | M      |    97 | 124     |
+|  6 | 无名      | 男   |        5 | M      |    90 | 125     |
++----+-----------+------+----------+--------+-------+---------+
+6 rows in set (0.00 sec)
 ```
 - `**注意**` 不带WHERE条件的DELETE语句会删除整个表的数据
 
