@@ -3,3 +3,4 @@ let events = require('events')
 // 创建eventEmitter
 let eventEmitter = new events.EventEmitter();
 // eventEmitter.
+
