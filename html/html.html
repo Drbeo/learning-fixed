@@ -40,7 +40,7 @@
     </style>
 </head>
 <body>
-    <h1>内容分区</h1>
+    <h1>1. 内容分区</h1>
     <header>header 用于展示介绍性内容，通常包含一组介绍性的或是辅助导航的实用元素。它可能包含一些标题元素，但也可能包含其他元素，比如 Logo、搜索框、作者名称，等等。
         <nav class="crumb">	HTML导航栏 (< nav>) 描绘一个含有多个超链接的区域，这个区域包含转到其他页面，或者页面内部其他部分的链接列表.
             <ol>
@@ -84,14 +84,28 @@
     <main>
         main 呈现了文档的 < body> 或应用的主体部分。主体部分由与文档直接相关，或者扩展于文档的中心主题、应用的主要功能部分的内容组成。
     </main>
-    <section>section 通常表示一个区块，表示一个包含在HTML文档中的独立部分，它没有更具体的语义元素来表示，一般来说会有包含一个标题。</section>
+    <section>section 通常表示一个区块，基本和div一样。表示一个包含在HTML文档中的独立部分，它没有更具体的语义元素来表示，一般来说会有包含一个标题。</section>
     <footer>footer 表示最近一个章节内容或者根节点（sectioning root ）元素的页脚。一个页脚通常包含该章节作者、版权数据或者与文档相关的链接等信息。</footer>
-<h1>文本内容</h1>
+<h1>2. 文本内容</h1>
     <blockquote cite="https://www.huxley.net/bnw/four.html">
-        blockquote 代表其中的文字是引用内容。
-        <p>Words can be like X-rays, if you use them properly—they’ll go through anything. You read and you’re pierced.</p>
-        <footer>—Aldous Huxley, <cite>Brave New World</cite></footer>
+        blockquote (引用标签) 代表其中的文字是引用内容。
+        <p>Words can be like X-rays, if you use them properly—they’ll go through anything. You read and you’re pierced. 引用内容</p>
+        <footer>—Aldous Huxley, <cite>Brave New World 引用人</cite></footer>
     </blockquote>
+    <div>div 通用型的块流内容容器</div>
+    <hr/>
+    <figure>
+        figure 一段独立的内容 经常与说明（caption） < figcaption> 配合使用,<br>
+        这个标签经常是在主文中引用的图片，插图，表格，代码段等等，当这部分转移到附录中或者其他页面时不会影响到主体。
+        <br>
+        <img src="https://www.baidu.com/img/bd_logo1.png"
+             alt="Elephant at sunset">
+        <figcaption>figcaption 是与其相关联的图片的说明/标题，用于描述其父节点 < figure> 元素里的其他数据。
+            这意味着 < figcaption> 在< figure> 块里是第一个或最后一个。同时 HTML Figcaption 元素是可选的；
+            如果没有该元素，这个父节点的图片只是会没有说明/标题。</figcaption>
+    </figure>
+
+    <hr/>
     <dl>
         dl 自定义定义列表
         <dt>dt 分组标题</dt>
@@ -102,13 +116,177 @@
         </dd>
         <!-- other terms and definitions -->
     </dl>
-<div>是一个通用型的流内容容器</div>
+    <hr/>
+    <ol>
+        <li>ol有序列表</li>
+        <li>li有序列表</li>
+    </ol>
+    <ul>
+        <li>ul无序列表</li>
+        <li>li无序列表</li>
+        <li>无序列表</li>
+    </ul>
+    <hr>
+    <p>p HTML 段落元素 表示文本的一个段落。该元素通常表现为一整块与相邻文本分离的文本，或以垂直的空白隔离或以首行缩进。另外，<p> 是块级元素。</p>
+    <pre>
+        pre 表示预定义格式文本。标签的一个常见应用就是用来表示计算机的源代码。
+        文本通常会保留空格和换行符。而文本也会呈现为等宽字体。
+\   ^__^
+ \  (oo)\_______
+    (__)\       )\/\
+        ||----w |
+        ||     ||
+    </pre>
 
-    <figure>
-        figure 一段独立的内容 经常与说明（caption） <figcaption> 配合使用,
-        <img src="https://www.baidu.com/img/bd_logo1.png"
-             alt="Elephant at sunset">
-        <figcaption>figcaption 百度</figcaption>
-    </figure>
+    <h1>3. 内联文本语义</h1>
+    <hr/>
+    <section>
+        <a href="/#">a 任何URL 超链接 锚点</a><br/>
+        The <abbr title="People's Republic of China">PRC</abbr> was founded in 1949.<br/>
+        <abbr title="用于展示缩写，并且可以通过可选的 title 属性提供完整的描述。若使用 title 属性，则它必须且仅可包含完整的描述内容。">abbr 简称或缩写</abbr>
+
+        <bdi dir="rtl">bdi （双向隔离元素） 定义文本的文本方向， 使其脱离其周围文本的方向设置。比如说用户名</bdi>
+        <br>
+        <bdo dir="rtl">bdo (双向覆盖元素) 用于覆盖当前文本的朝向，它使得字符按给定的方向排列。</bdo>
+        <br>
+        br 换行
+        <br>
+        <cite>
+            cite 表示一个作品的引用
+        </cite>
+        <br>
+        <code>
+            code 呈现一段计算机代码.
+            <pre>
+                \   ^__^
+                 \  (oo)\_______
+                    (__)\       )\/\
+                        ||----w |
+                        ||     ||
+            </pre>
+        </code>
+        <br>
+        <data value="该属性指定元素内容对应的机器可读的翻译。">data 将一个指定内容和机器可读的翻译联系在一起。</data>
+        <br>
+        <dfn title="术语的值。">dfn 表示术语的一个定义。</dfn>
+        <dfn title="术语的值。">
+            <abbr title="表示术语的一个定义。">表示术语的一个定义。</abbr>
+        </dfn>
+
+        <s>s 删除线</s>
+        <del>del 表示一些被从文档中删除的文字内容。</del>
+        <br>
+        <u>下划线</u>
+        <ins>ins 表示文档中添加的内容。下划线</ins>
+        <br>
+
+        <b>b 粗体文本</b><br>
+        <strong>strong 表示文本十分重要，一般用粗体显示。</strong>
+        <br>
+
+        <em>em 着重元素 显示斜体文本效果。</em>
+        <i>i 显示斜体文本效果。</i>
+        <br>
+
+        <kbd>kbd 表示用户输入，经常用在于计算机相关的文档和手册中。</kbd>
+        <br>
+        <mark>mark 突出显示的文字 可以用来显示搜索引擎搜索后关键词。</mark>
+        <br>
+        <q> q (引用标签) 表示一个封闭的并且是短的行内引用的文本。会自动加引号。这个标签是用来引用短的文本，所以请不要引入换行符; 对于长的文本的引用请使用 < blockquote> 替代.</q>
+        <br>
+        <ruby>
+            <rb>漢</rb>字
+            <rp>(</rp><rt>han</rt>zi<rp>)</rp>
+        </ruby>
+        <ruby>
+            漢 <rp>(</rp><rt>han</rt><rp>)</rp>
+            字 <rp>(</rp><rt>zi</rt><rp>)</rp>
+        </ruby>
+        <ruby>
+            <rb>旧</rb>
+            <rb>金</rb>
+            <rb>山</rb>
+            <rt>jiù</rt>
+            <rt>jīn</rt>
+            <rt>shān</rt>
+            <rtc>San Francisco</rtc>
+        </ruby>
+        <code>
+            <pre>
+            rb	 元素用于分隔< ruby>注释的基本文本组件（即正在注释的文本）。一个< rb>元素应该包装基本文本的每个单独的原子段。
+            rp	 用于为那些不能使用 < ruby> 元素展示 ruby 注解的浏览器，提供随后的圆括号。
+            rt	 包含字符的发音，字符在 ruby 注解中出现，它用于描述东亚字符的发音。这个元素始终在 < ruby> 元素中使用。
+            rtc	 包含文字的语义注解，它们在 < rb> 元素中展示。< rb> 元素可以拥有发音 (< rt>) 和语义(< rtc>) 注解。
+            ruby 被用来展示东亚文字注音或字符注释。
+            </pre>
+        </code>
+        <br>
+        <br>
+        <samp>samp 表示一段用户应该对其没有什么其他解释的文本字符。</samp>
+        字符序列 <samp>ae</samp> 可能会被转换为 &aelig; 连字字符。
+        <br>
+        <small>small 呈现小号字体效果。</small>
+        <br>
+        <span>span 通用行内容器</span>
+        <br>
+        sup<sup>sup 上标</sup>
+        <br>
+        sub<sub>sub 下标</sub>
+        <br>
+        <time>19:00</time>time 定义公历的时间（24 小时制）或日期，时间和时区偏移是可选的。
+        <br>
+        <p>我在 <time datetime="2008-02-14">情人节</time> 有个约会。</p>
+        <br>
+        <var>var 示变量的名称，或者由用户提供的值。</var><var>x</var> = <var>y</var> + 2
+        <br>
+        <wbr>规定在文本中的何处适合添加换行符。XML<wbr>Http<wbr>Request
+    </section>
+    <h1>4. 图片和多媒体</h1>
+    <hr/>
+    <img src="assets/mb.webp" border="1px" usemap="#planetmap" alt="Planets" />
+    <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/area">area 在图片上定义一个热点区域，可以关联一个超链接。</a>
+    < map> 属性 与 < area> 属性一起使用来定义一个图像映射(一个可点击的链接区域).
+    <map name="planetmap" id="planetmap">
+        <area shape="circle" coords="60,80,40" href="http://baidu.com" target ="_blank" alt="圆形circle">
+        <area shape="rect" coords="0,0,30,30," href="http://google.com" target ="_blank" alt="矩形rectangle">
+        <area shape="poly" coords="120,80,170,80,170,140" href="http://sogou.com" target ="_blank" alt="多边形polygon">
+    </map>
+    <br>
+    <audio src="assets/老狼-同桌的你.mp3" autoplay preload loop muted="muted" volume=".6" controls="controls" controlsList="nodownload"></audio>
+    <audio preload loop volume="0.6" controls="controls" controlsList="nodownload">
+        <source src="assets/老狼-同桌的你.mp3" type="audio/mpeg">
+    </audio>
+    <pre>
+    nodownload: 不要下载
+    nofullscreen: 不要全屏
+    noremoteplayback: 不要远程回放
+    </pre>
+
+    <video src="assets/松江大学城进站.mp4" loop preload controls="controls" controlsList="nodownload" height="200px" width="350px" poster="assets/mb.webp"></video>
+    <video poster="assets/mb.webp" height="200px" width="350px" loop controls="controls" controlsList="nodownload" >
+        <source src="assets/松江大学城进站.mp4" type="video/mp4">
+        <track default kind="captions" label="松江大学城进站"  srclang="en" src="/media/examples/friday.vtt"/> 字幕文件
+    </video>
+    <h1>5. 内嵌内容</h1>
+    <hr/>
+
+    <h1>6. 脚本</h1>
+    <hr/>
+
+    <h1>7. 编辑标识</h1>
+    <hr/>
+
+    <h1>8. 表格内容</h1>
+    <hr/>
+
+    <h1>9. 表单</h1>
+    <hr/>
+
+    <h1>10. 交互元素</h1>
+    <hr/>
+
+    <h1>11. Web 组件</h1>
+<hr/>
+
 </body>
 </html>
