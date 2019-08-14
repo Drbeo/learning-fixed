@@ -62,7 +62,7 @@
         USA
     </address>
     <article>
-        <h1>article 论坛帖子 报纸文章 博客条目 用户评论</h1>
+        <h1>article 语义化标签 论坛帖子 报纸文章 博客条目 用户评论</h1>
         <p>Windows Internet Explorer 9（简称 IE9）于 2011 年 3 月 14 日发布.....</p>
     </article>
     <article>
@@ -144,8 +144,7 @@
         <a href="/#">a 任何URL 超链接 锚点</a><br/>
         The <abbr title="People's Republic of China">PRC</abbr> was founded in 1949.<br/>
         <abbr title="用于展示缩写，并且可以通过可选的 title 属性提供完整的描述。若使用 title 属性，则它必须且仅可包含完整的描述内容。">abbr 简称或缩写</abbr>
-
-        <bdi dir="rtl">bdi （双向隔离元素） 定义文本的文本方向， 使其脱离其周围文本的方向设置。比如说用户名</bdi>
+        <bdi dir="rtl">bdi (双向隔离元素) 定义文本的文本方向， 使其脱离其周围文本的方向设置。比如说用户名</bdi>
         <br>
         <bdo dir="rtl">bdo (双向覆盖元素) 用于覆盖当前文本的朝向，它使得字符按给定的方向排列。</bdo>
         <br>
@@ -172,11 +171,11 @@
         <dfn title="术语的值。">
             <abbr title="表示术语的一个定义。">表示术语的一个定义。</abbr>
         </dfn>
-
+        <br>
         <s>s 删除线</s>
         <del>del 表示一些被从文档中删除的文字内容。</del>
         <br>
-        <u>下划线</u>
+        <u>u 下划线</u>
         <ins>ins 表示文档中添加的内容。下划线</ins>
         <br>
 
@@ -265,28 +264,191 @@
     <video src="assets/松江大学城进站.mp4" loop preload controls="controls" controlsList="nodownload" height="200px" width="350px" poster="assets/mb.webp"></video>
     <video poster="assets/mb.webp" height="200px" width="350px" loop controls="controls" controlsList="nodownload" >
         <source src="assets/松江大学城进站.mp4" type="video/mp4">
-        <track default kind="captions" label="松江大学城进站"  srclang="en" src="/media/examples/friday.vtt"/> 字幕文件
+        <track default kind="captions" label="松江大学城进站"  srclang="en" src="/media/examples/friday.vtt"/> track 字幕文件
     </video>
     <h1>5. 内嵌内容</h1>
     <hr/>
+    <embed type="audio/mpeg" src="assets/老狼-同桌的你.mp3" width="340" height="80"> embed 定义嵌入的内容，比如插件。
+    <br>
 
+    <iframe src="https://www.w3school.com.cn/tags/tag_iframe.asp" frameborder="1" title="包含另外一个文档的内联框架" width="1300" height="600"></iframe>
+    <br>
+    <hr>
+    <object data="assets/mb.webp" type="image/webp" name="Object"></object>
+    object 嵌入对象元素,文档、图像、音频、视频、Java applets、ActiveX、PDF 以及 Flash。
+    <object data="assets/老狼-同桌的你.mp3" type="audio/mpeg">
+        <param name="为<object>元素定义参数" value="参数的值">
+    </object>
+    允许您为插入 XHTML 文档的对象规定 run-time 设置，也就是说，此标签可为包含它的 < object> 或者 < applet> 标签提供参数。
+    <br>
+    <picture>
+        <source srcset="assets/mb.webp" src="assets/mb.webp" type="image/webp" media="(min-width: 800px)">
+        <img src="assets/bs.png" alt=""/>
+    </picture>
+    picture 通过包含零或多个 < source> 元素和一个 < img> 元素来为不同的显示/设备场景提供图像版本。
+    <br>
+    source 通常用于以不同浏览器支持的多种格式提供相同的媒体内容。
     <h1>6. 脚本</h1>
     <hr/>
-
+    <canvas id="myCanvas">
+        Canvas可被用来通过脚本（通常是JavaScript）绘制图形。
+    </canvas>
+    <br>
+    <noscript>
+        <strong>noscript 页面上的脚本类型不受支持或者当前在浏览器中关闭了脚本</strong>
+    </noscript>
+    noscript 页面上的脚本类型不受支持或者当前在浏览器中关闭了脚本
+    <script>
+        // 脚本
+    </script>
     <h1>7. 编辑标识</h1>
     <hr/>
-
+    <del cite="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/del" datetime="2019-08">del 标签表示一些被从文档中删除的文字内容。</del>
+    <br>
+    <ins cite="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/ins" datetime="2019-08">ins 插入文档中的文本。</ins>
     <h1>8. 表格内容</h1>
     <hr/>
-
+        <table border="1">
+            <caption>表格的标题</caption>
+            <colgroup span="3" valign="top">
+                <!--这两个基本没有 还不如样式-->
+                <col width="120"></col>
+                <col align="center"></col>
+                <col valign="middle"></col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>表格的表头</th>
+                    <th>表头2</th>
+                    <th>表头3</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td>表格的页脚</td>
+                    <td colspan="2">6</td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr>
+                    <td>表格主体</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+            </tbody>
+        </table>
+    书写次序：thead、tfoot、tbody
     <h1>9. 表单</h1>
     <hr/>
+    <form action="/url">
+        <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/input">input</a>
+        <label for="inputText">标签</label>
+        <input type="text" id="inputText"><br>
+        按钮<input type="button" value="按钮"><br>
+        多选<input type="checkbox"><br>
+        单选<input type="radio"><br>
+        颜色<input type="color"><br>
+        周<input type="week"><br>
+        月<input type="month"><br>
+        日期<input type="date"><br>
+        日期时间<input type="datetime-local"><br>
+        时间<input type="time"><br>
+        邮箱<input type="email"><br>
+        文件<input type="file"><br>
+        隐藏输入框<input type="hidden"><br>
+        图片<input type="image"><br>
+        数字<input type="number"><br>
+        密码<input type="password"><br>
+        范围<input type="range"><br>
+        重置<input type="reset"><br>
+        搜索输入框<input type="search"><br>
+        提交<input type="submit"><br>
+        电话<input type="tel"><br>
+        文本<input type="text"><br>
+        url地址<input type="url"><br>
+        <hr>
+        <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/button">button</a>
+        <button name="button" >普通按钮</button>
+        <button name="button" type="submit">提交按钮</button>
+        <button name="button" type="reset">重置按钮</button>
+        <button name="button" type="menu">菜单按钮</button>
+        <hr>
+        <label>datalist 定义选项列表。请与 input 元素配合使用该元素，来定义 input 可能的值。:
+            <input list="browsers" name="myBrowser" /></label>
+        <datalist id="browsers">
+            <option value="Chrome">
+            <option value="Firefox">
+            <option value="Internet Explorer">
+            <option value="Opera">
+            <option value="Safari">
+        </datalist>
+        <hr>
+        <form>
+            <fieldset disabled name="fieldset">
+                fieldset将表单内的相关元素分组。
+                <legend>legend 域说明元素</legend>
+                身高: <input type="text" />
+                体重: <input type="text" />
+            </fieldset>
+        </form>
+        <br>
+        min max 所有范围
+        low high 正常范围
+        <meter value="3" min="0" max="10">3/10</meter><br>
+        <meter min="0" low="40" high="90" max="100" value="95"></meter><br>
+        <meter min="0" low="40" high="90" max="100" value="65"></meter><br>
+        <meter min="0" low="40" high="90" max="100" value="25"></meter><br>
+        optgroup select的分组
+        <select>
+            <optgroup label="Group 1">
+                <option>选项 1.1</option>
+            </optgroup>
+            <optgroup label="Group 2">
+                <option>Option 2.1</option>
+                <option selected>Option 2.2</option>
+            </optgroup>
+            <optgroup label="Group 3" disabled>
+                <option>Option 3.1</option>
+                <option>Option 3.2</option>
+                <option>Option 3.3</option>
+            </optgroup>
+        </select><br>
+        <textarea name="文本域" id="" cols="30" rows="10" placeholder="文本域textarea"></textarea>
+        <form oninput="result.value=parseInt(a.value)+parseInt(b.value)">
+            <input type="range" name="b" value="50" /> +
+            <input type="number" name="a" value="10" /> =
+            <output name="result">表示计算或用户操作的结果。</output>
+        </form>
 
+        <progress value="70" max="100">70 % progress 进度条</progress>
+    </form>
     <h1>10. 交互元素</h1>
     <hr/>
-
+    <details open="open">
+        <summary>"details" 元素用于描述有关文档或文档片段的详细信息。</summary>
+        用于描述文档或文档某个部分的细节。
+    </details>
+    <dialog open> dialog 这是打开的对话窗口</dialog>
+    <menu>
+        menu menuitem 只有火狐实现了，右键自定义菜单
+        <menuitem label="发送到邮箱" onclick="window.location='mailto:?body='+window.location.href;"></menuitem>
+    </menu>
     <h1>11. Web 组件</h1>
+    <slot name="webSlot">slot 插槽</slot>
+    <template>
+        template 将模板视为一个内容片段，存储在文档中供后续使用。虽然解析器在加载页面时确实会处理< template>元素的内容，但这样做只是为了确保这些内容有效；然而，元素的内容不会被呈现。
+        <div slot="webSlot">自定义插槽</div>
+    </template>
 <hr/>
 
 </body>
+<script type="text/javascript">
+
+    let canvas=document.getElementById('myCanvas');
+    let ctx=canvas.getContext('2d');
+    ctx.fillStyle='#bbebff';
+    ctx.fillRect(0,0,80,100);
+    console.log(ctx)
+
+</script>
 </html>
