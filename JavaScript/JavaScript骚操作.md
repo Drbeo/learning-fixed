@@ -7,7 +7,7 @@
 'ds' * 1            // NaN
 null * 1            // 0
 undefined * 1       // NaN
-1  * { valueOf: ()=>'3' }        // 3
+1 * { valueOf: ()=>'3' }        // 3
                     // 使用+来转化字符串为数字
 + '123'             // 123
 + 'ds'              // NaN
@@ -444,6 +444,9 @@ Array.from(arguments)
 15. 过滤数组
 ```js
 [1,2,3].filter(item=>{return item>2}) // [3]
+
+// 筛选素数
+arr.filter(a=>a===2||a===3||a===5||a===7||(a>1&&a%2&&a%3&&a%5&&a%7));
 ```
 ## 四、元素操作
 
@@ -457,24 +460,24 @@ $this[$target.hasClass('am-in') ? 'addClass' : 'removeClass']('am-collapsed');
 
 1. 空('' null undefined)验证
 ```js
-let pan = '';
-function fUN () {
-    console.log("panrui");
+let obj = '';
+function fun1 () {
+    console.log("obj");
     return true;
 }
-let rui  = pan || fUN();
+let obj1  = obj || fun1();
 ```
 
 2. 三目运算后面使用函数
 ```js
 let string = true;
-function pan () {
-    console.log("pan");
+function fun1 () {
+    console.log("fun1");
 }
-function rui () {
-    console.log("rui");
+function fun2 () {
+    console.log("fun2");
 }
-string ? pan() : rui();
+string ? fun1() : fun2();
 ```
 
 3. 字符串比较时间先后
