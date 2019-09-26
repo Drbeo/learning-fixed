@@ -1,9 +1,12 @@
 # :hatching_chick:学不动 :hatched_chick:
 
-##
+## 教程文档
 * [易百教程](https://www.yiibai.com/)
 * [开发者手册](https://cloud.tencent.com/developer/devdocs)
-* [易百教程](https://www.yiibai.com/)
+* [Web 开发技术 mozilla](https://developer.mozilla.org/zh-CN/docs/Web)
+* [W3School](https://www.w3school.com.cn/)
+* [菜鸟教程](https://www.runoob.com/)
+* [印记中文](https://docschina.org/)
 
 
 ## books
