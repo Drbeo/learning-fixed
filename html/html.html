@@ -478,7 +478,7 @@
 </script>
 <script type="text/javascript">
     /*调用微信预览图片的方法*/
-    function imgPreview(){
+    function imgPreview () {
         var imgs = [];
         var imgObj = $(".img");//这里改成相应的对象
         for(var i=0; i<imgObj.length; i++){
@@ -490,6 +490,26 @@
                     "current":nowImgurl
                 });
             });
+        }
+    }
+    imgPreview1 () {
+        var imglist = [];
+        // var imgObj = $(".work-content img"); // img对象
+        var contentImg = document.getElementById('work-content')
+        if (contentImg) {
+            var imgObj = contentImg.getElementsByTagName('img')
+            if (imgObj) {
+                for(var i=0; i<imgObj.length; i++){
+                    imglist.push(imgObj[i].src);
+                    imgObj[i].addEventListener("click", function(){
+                        var ImgUrl = this.src;
+                        WeixinJSBridge.invoke("imagePreview",{
+                            "urls":imglist,
+                            "current":ImgUrl
+                        });
+                    });
+                }
+            }
         }
     }
     imgPreview ()
