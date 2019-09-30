@@ -452,3 +452,45 @@
 
 </script>
 </html>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<script type="text/javascript">
+    function imgPreview(){
+        var imglis = [];
+        var imgObj = $(".img"); // img对象
+        for(var i=0; i<imgObj.length; i++){
+            imglis.push(imgObj.eq(i).attr('src'))
+            imgObj.eq(i).click(function(){
+                var Imgurl = $(this).attr('src');
+                wx.previewImage({
+                    current: Imgurl, // 当前显示图片的http链接
+                    urls: imglis // 需要预览的图片http链接列表
+                });
+                // WeixinJSBridge.invoke("imagePreview",{
+                //     "urls":imglis,
+                //     "current":Imgurl
+                // });
+            });
+        }
+    }
+
+    imgPreview();
+
+</script>
+<script type="text/javascript">
+    /*调用微信预览图片的方法*/
+    function imgPreview(){
+        var imgs = [];
+        var imgObj = $(".img");//这里改成相应的对象
+        for(var i=0; i<imgObj.length; i++){
+            imgs.push(imgObj.eq(i).attr('src'));
+            imgObj.eq(i).click(function(){
+                var nowImgurl = $(this).attr('src');
+                WeixinJSBridge.invoke("imagePreview",{
+                    "urls":imgs,
+                    "current":nowImgurl
+                });
+            });
+        }
+    }
+    imgPreview ()
+</script>

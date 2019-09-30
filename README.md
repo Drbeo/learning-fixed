@@ -7,7 +7,7 @@
 * [W3School](https://www.w3school.com.cn/)
 * [菜鸟教程](https://www.runoob.com/)
 * [印记中文](https://docschina.org/)
-
+* [Frontend Developer 路线](https://roadmap.sh/frontend)
 
 ## books
 * [前端开发者指南 2016](https://github.com/FrontendMasters/front-end-handbook)
@@ -54,6 +54,7 @@
 * [大迁世界前端翻译](https://github.com/qq449245884/xiaozhi)
 * [前端实验室](https://8788.github.io/lab/)
 * [前端九部 - 入门者手册2019](https://www.yuque.com/fe9/basic)
+* [大前端面试宝典 - 图解前端](https://github.com/azl397985856/fe-interview)
 ## html
 
 
