@@ -37,13 +37,13 @@ Math 对象并不像 Date 和 String 那样是对象的类，因此没有构造�
 | Math.abs(x)             | 返回x的绝对值. |
 | Math.floor(x)           | 返回x向下取整后的值。 |
 | Math.ceil(x)            | 返回x向上取整后的值. |
-| Math.max([x[,y[,…]]])   | 返回0个到多个数值中最大值. |
-| Math.min([x[,y[,…]]])   | 返回0个到多个数值中最小值. |
+| Math.max(\[x\[,y\[,…]]])   | 返回0个到多个数值中最大值. |
+| Math.min(\[x\[,y\[,…]]])   | 返回0个到多个数值中最小值. |
 | Math.random()           | 返回0到1之间的伪随机数. |
 | Math.round(x)           | 返回四舍五入后的整数. |
 | Math.pow(x,y)           | 返回x的y次幂. |
 | Math.sqrt(x)            | 返回x的平方根. |
-| Math.hypot([x[,y[,…]]]) ES| 返回其参数平方和的平方根。 |
+| Math.hypot(\[x\[,y\[,…]]]) ES| 返回其参数平方和的平方根。 |
 | Math.cbrt(x)  ES        | 返回x的立方根. |
 | Math.exp(x)             | 返回 Ex, 当x为参数,  E 是欧拉常数 (2.718...), 自然对数的底. |
 | Math.expm1(x) ES        | 返回 exp(x)-1 的值. |
