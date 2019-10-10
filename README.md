@@ -8,6 +8,10 @@
 * [菜鸟教程](https://www.runoob.com/)
 * [印记中文](https://docschina.org/)
 * [Frontend Developer 路线](https://roadmap.sh/frontend)
+* [Awesome lists about all kinds of interesting topics](https://github.com/sindresorhus/awesome)
+* [Awesome Hacking](https://github.com/Hack-with-Github/Awesome-Hacking)
+* [GitHub秘籍](https://github.com/tiimgreen/github-cheat-sheet/blob/master/README.zh-cn.md)
+* [Awesome JavaScript](https://github.com/sorrycc/awesome-javascript)
 
 ## books
 * [前端开发者指南 2016](https://github.com/FrontendMasters/front-end-handbook)
