@@ -12,6 +12,7 @@
 * [Awesome Hacking](https://github.com/Hack-with-Github/Awesome-Hacking)
 * [GitHub秘籍](https://github.com/tiimgreen/github-cheat-sheet/blob/master/README.zh-cn.md)
 * [Awesome JavaScript](https://github.com/sorrycc/awesome-javascript)
+* [前端进阶必备，github 优质资源整理分享！](https://juejin.im/post/5d3edad9f265da03a652f133)
 
 ## books
 * [前端开发者指南 2016](https://github.com/FrontendMasters/front-end-handbook)
