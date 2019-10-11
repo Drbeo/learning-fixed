@@ -127,6 +127,5 @@ var seconds = Math.floor(Date.now() / 1000); // 1570693085
 | toLocaleTimeString()|根据本地时间格式，把 Date 对象的时间部分转换为字符串。|
 | toLocaleDateString()|根据本地时间格式，把 Date 对象的日期部分转换为字符串。|
 | toLocaleFormat()    |使用格式字符串将日期转换为字符串。|
-| toSource()          |返回该对象的源代码。|
 | toString()          |返回一个表示该日期对象的字符串。|
 | valueOf()           |返回一个日期对象的原始值。|

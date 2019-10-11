@@ -82,7 +82,6 @@ fruits instanceof Array     // 返回 true
 | includes(valueToFind\[, fromIndex])    | 判断当前数组是否包含某指定的值，如果是返回 true，否则返回 false。|
 | indexOf()                              | 返回数组中第一个与指定值相等的元素的索引，如果找不到这样的元素，则返回 -1。|
 | lastIndexOf()                          | 返回数组中最后一个（从右边数第一个）与指定值相等的元素的索引，如果找不到这样的元素，则返回 -1。|
-| toSource()                             | 返回一个字符串，代表该数组的源代码。|
 | valueOf()	                             | 返回数组对象的原始值 |
 
 ### Array 迭代方法 

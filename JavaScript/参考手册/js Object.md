@@ -44,4 +44,3 @@
 | obj.toString()                   |返回对象的字符串表示。 |
 | obj.toLocaleString()             |直接调用 toString()方法。 |
 | obj.valueOf()                    |方法返回指定对象的原始值。 |
-| obj.toSource()                   |返回字符串表示此对象的源代码形式，可以使用此字符串生成一个新的相同的对象。 |
