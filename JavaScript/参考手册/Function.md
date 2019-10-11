@@ -159,3 +159,98 @@ var result2 = addThirtySeven(5);
 var result3 = addThirtySeven(5, 10);
 // 37 + 5 = 42 ，第二个参数被忽略
 ```
+### 箭头函数
+
+箭头函数表达式的语法比函数表达式更简洁，并且没有自己的this，arguments，super或 new.target。这些函数表达式更适用于那些本来需要匿名函数的地方，并且它们不能用作构造函数。
+
+* 基础语法
+```js
+(参数1, 参数2, …, 参数N) => { 函数声明 }
+
+// 相当于：(参数1, 参数2, …, 参数N) =>{ return 表达式; }
+(参数1, 参数2, …, 参数N) => 表达式（单一） 
+
+// 当只有一个参数时，圆括号是可选的：
+(单一参数) => {函数声明}
+单一参数 => {函数声明}
+
+// 没有参数的函数应该写成一对圆括号。
+() => {函数声明}
+```
+* 高级语法
+```js
+//加括号的函数体返回对象字面表达式：
+参数=> ({foo: bar})
+
+//支持剩余参数和默认参数
+(参数1, 参数2, ...rest) => {函数声明}
+(参数1 = 默认值1,参数2, …, 参数N = 默认值N) => {函数声明}
+
+//同样支持参数列表解构
+let f = ([a, b] = [1, 2], {x: c} = {x: a + b}) => a + b + c;
+f();  // 6
+```
+
+### 函数默认参数
+
+```js
+function [name]([param1[ = defaultValue1 ][, ..., paramN[ = defaultValueN ]]]) { 
+    statements 
+}
+```
+
+### 方法的定义
+
+```js
+var obj = {
+  property( parameters… ) {},
+  *generator( parameters… ) {},
+  async property( parameters… ) {},
+  async* generator( parameters… ) {},
+
+  // with computed keys:
+  [property]( parameters… ) {},
+  *[generator]( parameters… ) {},
+  async [property]( parameters… ) {},
+
+  // compare getter/setter syntax:
+  get property() {},
+  set property(value) {}
+};
+```
+### 剩余参数
+
+剩余参数语法允许我们将一个不定数量的参数表示为一个数组。
+
+```js
+function(a, b, ...theArgs) {
+  // ...
+}
+```
+### Arguments 对象
+
+arguments 是一个对应于传递给函数的参数的类数组对象。
+
+arguments对象是所有（非箭头）函数中都可用的局部变量。
+```js
+arguments[0]
+arguments.length
+```
+
+### getter
+
+get语法将对象属性绑定到查询该属性时将被调用的函数。
+
+```js
+{get prop() { ... } }
+{get [expression]() { ... } }
+```
+
+### setter
+
+当尝试设置属性时，set语法将对象属性绑定到要调用的函数。
+
+```js
+{set prop(val) { ... } }
+{set [expression](val) { ... } }
+```
