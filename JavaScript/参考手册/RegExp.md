@@ -26,7 +26,7 @@ RegExp(pattern [, flags]) // 工厂符号
 #### 字符类别（Character Classes）
 | 字符 | 含义                     |
 | --- | ---                      |
-|.	|(点号，小数点) 匹配任意单个字符，但是行结束符除外：\n \r \u2028 或 \u2029。<br/>  在字符集中，点( . )失去其特殊含义，并匹配一个字面点( . )。<br/>需要注意的是，m 多行（multiline）标志不会改变点号的表现。因此为了匹配多行中的字符集，可使用[^] （当然你不是打算用在旧版本 IE 中），它将会匹配任意字符，包括换行符。<br/>例如，/.y/ 匹配 "yes make my day" 中的 "my" 和 "ay"，但是不匹配 "yes"。<br/>|
+|.	|(点号，小数点) 匹配任意单个字符，但是行结束符除外：\n \r \u2028 或 \u2029。<br/>  在字符集中，点( . )失去其特殊含义，并匹配一个字面点( . )。<br/>需要注意的是，m 多行（multiline）标志不会改变点号的表现。因此为了匹配多行中的字符集，可使用\[^] （当然你不是打算用在旧版本 IE 中），它将会匹配任意字符，包括换行符。<br/>例如，/.y/ 匹配 "yes make my day" 中的 "my" 和 "ay"，但是不匹配 "yes"。<br/>|
 |\d	|匹配任意阿拉伯数字。等价于\[0-9]。 <br/> 例如，/\d/ 或 /\[0-9]/ 匹配 "B2 is the suite number." 中的 '2'。 |
 |\D	|匹配任意一个不是阿拉伯数字的字符。等价于\[^0-9]。 <br/> 例如，/\D/ 或 /\[^0-9]/ 匹配 "B2 is the suite number." 中的 'B'。|
 |\w	|匹配任意来自基本拉丁字母表中的字母数字字符，还包括下划线。等价于 `\[A-Za-z0-9_]`。 <br/> 例如，/\w/ 匹配 "apple" 中的 'a'，"$5.28" 中的 '5' 和 "3D" 中的 '3'。|
@@ -50,6 +50,7 @@ RegExp(pattern [, flags]) // 工厂符号
 | ---     | ---                      |
 | \[xyz]  | 一个字符集合，也叫字符组。匹配集合中的任意一个字符。你可以使用连字符'-'指定一个范围。|
 | \[^xyz] | 一个反义或补充字符集，也叫反义字符组。也就是说，它匹配任意不在括号内的字符。你也可以通过使用连字符 '-' 指定一个范围内的字符。|
+| \[^]    | 大概意义为‘非空’，anychar，等价于:  \[\t\n\v\f\r \u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]|
 
 #### 边界（Boundaries）
 | 字符     | 含义                     |
@@ -69,59 +70,110 @@ RegExp(pattern [, flags]) // 工厂符号
 #### 数量词（Quantifiers）
 | 字符   | 含义                     |
 | ---   | ---                      |
+|x*	    |匹配前面的模式 x 0 或多次。<br>例如，/bo*/ 匹配 "A ghost booooed" 中的 "boooo"，"A bird warbled" 中的 "b"，但是不匹配 "A goat grunted"。|
+|x+	    |匹配前面的模式 x 1 或多次。等价于 {1,}。<br>例如，/a+/ 匹配 "candy" 中的 "a"，"caaaaaaandy" 中所有的 "a"。|
+|x*? <br> x+?|	像上面的 * 和 + 一样匹配前面的模式 x，然而匹配是最小可能匹配。<br>例如，/".*?"/ 匹配 '"foo" "bar"' 中的 '"foo"'，而 * 后面没有 ? 时匹配 '"foo" "bar"'。|
+|x?	    |匹配前面的模式 x 0 或 1 次。<br>例如，/e?le?/ 匹配 "angel" 中的 "el"，"angle" 中的 "le"。<br>如果在数量词 *、+、? 或 {}, 任意一个后面紧跟该符号（?），会使数量词变为非贪婪（ non-greedy） ，即匹配次数最小化。反之，默认情况下，是贪婪的（greedy），即匹配次数最大化。<br>在使用于向前断言（lookahead assertions）时，见该表格中 (?=)、(?!) 和 (?:) 的说明。|
+|x(?=y)	|只有当 x 后面紧跟着 y 时，才匹配 x。 <br>例如，/Jack(?=Sprat)/ 只有在 'Jack' 后面紧跟着 'Sprat' 时，才会匹配它。/Jack(?=Sprat|Frost)/ 只有在 'Jack' 后面紧跟着 'Sprat' 或 'Frost' 时，才会匹配它。然而，'Sprat' 或 'Frost' 都不是匹配结果的一部分。
+|x(?!y)	|只有当 x 后面不是紧跟着 y 时，才匹配 x。<br>例如，/\d+(?!\.)/ 只有当一个数字后面没有紧跟着一个小数点时，才会匹配该数字。<br>/\d+(?!\.)/.exec("3.141") 匹配 141 而不是 3.141。
+|x\|y	|匹配 x 或 y <br>例如，/green\|red/ 匹配 "green apple" 中的 ‘green'，"red apple." 中的 'red'。|
+|x{n}	|n 是一个正整数。前面的模式 x 连续出现 n 次时匹配。<br>例如，/a{2}/ 不匹配 "candy," 中的 "a"，但是匹配 "caandy," 中的两个 "a"，且匹配 "caaandy." 中的前两个 "a"。
+|x{n,}	|n 是一个正整数。前面的模式 x 连续出现至少 n 次时匹配。<br>例如，/a{2,}/ 不匹配 "candy" 中的 "a"，但是匹配 "caandy" 和 "caaaaaaandy." 中所有的 "a"。
+|x{n,m}	|n 和 m 为正整数。前面的模式 x 连续出现至少 n 次，至多 m 次时匹配。<br>例如，/a{1,3}/ 不匹配 "cndy"，匹配 "candy," 中的 "a"，"caandy," 中的两个 "a"，匹配 "caaaaaaandy" 中的前面三个 "a"。<br>注意，当匹配 "caaaaaaandy" 时，即使原始字符串拥有更多的 "a"，匹配项也是 "aaa"。
 
-x*	
-匹配前面的模式 x 0 或多次。
-
-例如，/bo*/ 匹配 "A ghost booooed" 中的 "boooo"，"A bird warbled" 中的 "b"，但是不匹配 "A goat grunted"。
-
-x+	
-匹配前面的模式 x 1 或多次。等价于 {1,}。
-
-例如，/a+/ 匹配 "candy" 中的 "a"，"caaaaaaandy" 中所有的 "a"。
-
-x*?
-x+?	
-像上面的 * 和 + 一样匹配前面的模式 x，然而匹配是最小可能匹配。
-
-例如，/".*?"/ 匹配 '"foo" "bar"' 中的 '"foo"'，而 * 后面没有 ? 时匹配 '"foo" "bar"'。
-
-x?	
-匹配前面的模式 x 0 或 1 次。
-
-例如，/e?le?/ 匹配 "angel" 中的 "el"，"angle" 中的 "le"。
-
-如果在数量词 *、+、? 或 {}, 任意一个后面紧跟该符号（?），会使数量词变为非贪婪（ non-greedy） ，即匹配次数最小化。反之，默认情况下，是贪婪的（greedy），即匹配次数最大化。
-
-在使用于向前断言（lookahead assertions）时，见该表格中 (?=)、(?!) 和 (?:) 的说明。
-
-x(?=y)	只有当 x 后面紧跟着 y 时，才匹配 x。 例如，/Jack(?=Sprat)/ 只有在 'Jack' 后面紧跟着 'Sprat' 时，才会匹配它。/Jack(?=Sprat|Frost)/ 只有在 'Jack' 后面紧跟着 'Sprat' 或 'Frost' 时，才会匹配它。然而，'Sprat' 或 'Frost' 都不是匹配结果的一部分。
-x(?!y)	
-只有当 x 后面不是紧跟着 y 时，才匹配 x。例如，/\d+(?!\.)/ 只有当一个数字后面没有紧跟着一个小数点时，才会匹配该数字。
-
-/\d+(?!\.)/.exec("3.141") 匹配 141 而不是 3.141。
-
-x|y	
-匹配 x 或 y
-
-例如，/green|red/ 匹配 "green apple" 中的 ‘green'，"red apple." 中的 'red'。
-
-x{n}	
-n 是一个正整数。前面的模式 x 连续出现 n 次时匹配。
-
-例如，/a{2}/ 不匹配 "candy," 中的 "a"，但是匹配 "caandy," 中的两个 "a"，且匹配 "caaandy." 中的前两个 "a"。
-
-x{n,}	
-n 是一个正整数。前面的模式 x 连续出现至少 n 次时匹配。
-
-例如，/a{2,}/ 不匹配 "candy" 中的 "a"，但是匹配 "caandy" 和 "caaaaaaandy." 中所有的 "a"。
-
-x{n,m}	
-n 和 m 为正整数。前面的模式 x 连续出现至少 n 次，至多 m 次时匹配。
-
-例如，/a{1,3}/ 不匹配 "cndy"，匹配 "candy," 中的 "a"，"caandy," 中的两个 "a"，匹配 "caaaaaaandy" 中的前面三个 "a"。注意，当匹配 "caaaaaaandy" 时，即使原始字符串拥有更多的 "a"，匹配项也是 "aaa"。
 #### 断言（Assertions）
 | 字符    | 含义                     |
 | ---    | ---                      |
 | x(?=y) | 仅匹配被y跟随的x。 <br> 举个例子，`/Jack(?=Sprat)/`，如果"Jack"后面跟着sprat，则匹配之。<br> `/Jack(?=Sprat|Frost)/` ，如果"Jack"后面跟着"Sprat"或者"Frost"，则匹配之。但是，"Sprat" 和"Frost" 都不会在匹配结果中出现。|
 | x(?!y) | 仅匹配不被y跟随的x。 <br> 举个例子，`/\d+(?!\.)/` 只会匹配不被点（.）跟随的数字。<br> `/\d+(?!\.)/.exec('3.141')` 匹配"141"，而不是"3.141"|
+
+
+#### RegExp 属性
+| 属性            | 含义                     |
+| ---            | ---                      |
+|RegExp.prototype| 允许为所有正则对象添加属性。|
+|RegExp.length   | RegExp.length 值为 2。|
+
+#### RegExp 方法
+全局对象 RegExp 自身没有方法, 不过它会继承一些方法通过原型链
+`apply`, `call`, `toString`
+
+#### RegExp 实例属性
+| 属性                       | 含义                     |
+| ---                        | ---                      |
+|RegExp.prototype.constructor|创建该正则对象的构造函数。|
+|RegExp.prototype.global     |是否开启全局匹配，也就是匹配目标字符串中所有可能的匹配项，而不是只进行第一次匹配。|
+|RegExp.prototype.ignoreCase |在匹配字符串时是否要忽略字符的大小写。|
+|RegExp.prototype.lastIndex  |下次匹配开始的字符串索引位置。|
+|RegExp.prototype.multiline  |是否开启多行模式匹配（影响 ^ 和 $ 的行为）。|
+|RegExp.prototype.source     |正则对象的源模式文本。|
+|RegExp.prototype.sticky     |是否开启粘滞匹配。|
+
+#### RegExp 实例方法
+| 方法                       | 含义                     |
+| ---                        | ---                      |
+|RegExp.prototype.exec()     |在目标字符串中执行一次正则匹配操作。返回一个数组（未匹配到则返回 null）。|
+|RegExp.prototype.test()     |测试当前正则是否能匹配目标字符串。返回 true 或 false。|
+|RegExp.prototype.toString() |返回一个字符串，其值为该正则对象的字面量形式。覆盖了Object.prototype.toString() 方法。|
+
+#### 支持RegExp 的 String 对象的方法
+| 方法    | 语法                                               | 含义|
+| ---     | ---                                               | ---                      |
+| search  | str.search(reg); <br> regexp\[regexp\[Symbol.search](str)               | 检索与正则表达式相匹配的值。|
+| match	  | str.match(reg) <br> regexp\[Symbol.match](str)                        | 执行查找一个或多个正则表达式的匹配。返回一个数组，在未匹配到时会返回 null。|
+| matchAll| str.matchAll(reg) <br> regexp\[Symbol.matchAll](str)                     | 执行查找所有匹配，返回一个迭代器（iterator）。|
+| replace | str.replace(reg\|string, str1); <br> regexp\[Symbol.replace](str, newSubStr\|function) | 替换与正则表达式匹配的子串。|
+| split	  | str.split(reg\|string); <br> regexp\[Symbol.split](str\[, limit])              | 把字符串分割为字符串数组。|
+
+```js
+// dotAll flag使用
+/foo.bar/u.test('foo\nbar'); // → false
+/foo.bar/su.test('foo\nbar'); // → true
+
+// 两个方法返回相同结
+'abc'.search(/a/);
+/a/[Symbol.search]('abc'); 
+
+// 两个方法返回相同结
+'abc'.match(/a/);
+/a/[Symbol.match]('abc');
+
+// 两个方法返回相同结
+'abc'.replace(/a/, 'A');
+/a/[Symbol.replace]('abc', 'A');
+
+// 两个方法返回相同结
+'a-b-c'.split(/-/);
+/-/[Symbol.split]('a-b-c');
+
+// 使用正则改变数据结构
+let str = "John Smith";
+let newstr = str.replace(/(\w+)\s(\w+)/, "$2, $1");
+print(newstr);
+
+// 在多行中使用正则表达式
+var s = "Please yes\nmake my day!";
+s.match(/yes.*day/);
+// Returns null
+s.match(/yes[^]*day/);
+// Returns 'yes\nmake my day'
+
+// 使用带有 ”sticky“ 标志的正则表达式
+var text = "First line\nsecond line";
+var regex = /(\S+) line\n?/y;
+
+var match = regex.exec(text);
+print(match[1]);  // prints "First"
+print(regex.lastIndex); // prints 11
+
+var match2 = regex.exec(text);
+print(match2[1]); // prints "Second"
+print(regex.lastIndex); // prints "22"
+
+var match3 = regex.exec(text);
+print(match3 === null); // prints "true"
+
+// 从 URL 中提取子域名
+var url = "http://xxx.domain.com";
+print(/[^.]+/.exec(url)[0].substr(7)); // prints "xxx"
+```
