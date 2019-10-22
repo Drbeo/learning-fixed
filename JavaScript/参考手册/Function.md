@@ -15,11 +15,10 @@
 | ---                | ---                     |
 | eval(string)	                 | 计算 JavaScript 字符串，并把它作为脚本代码来执行。|
 | uneval(object)                 | 函数创建一个代表对象的源代码的字符串。|
-| decodeURI(encodedURI)	         | 解码某个编码的 URI。|
+| decodeURI(encodedURI)	         | 解码某个编码的 URI。只操作空格和参数|
 | decodeURIComponent(encodedURI) | 解码一个编码的 URI 组件。|
-| encodeURI(URI)	             | 把字符串编码为 URI。|
+| encodeURI(URI)	             | 把字符串编码为 URI。只操作空格和参数|
 | encodeURIComponent(URI)        | 把字符串编码为 URI 组件。|
-| getClass()	                 | 返回一个 JavaObject 的 JavaClass。|
 | isFinite(value)	             | 检查某个值是否为有穷大的数。|
 | isNaN(value)	                 | 检查某个值是否是数字。|
 | Number(object)	             | 把对象的值转换为数字。|
