@@ -61,11 +61,11 @@ var seconds = Math.floor(Date.now() / 1000); // 1570693085
 
 #### Date 对象属性
 
-| 属性	             | 描述                     |
-| ---                | ---                     |
-| Boolean.length     | Date.length 的值是 7。这是该构造函数可接受的参数个数。 |
-| Boolean.prototype	 | Date 构造函数的原型对象。 |
-| Boolean.constructor| 返回对创建此对象的 Date 函数的引用。 |
+| 属性	          | 描述                     |
+| ---             | ---                     |
+| Date.length     | Date.length 的值是 7。这是该构造函数可接受的参数个数。 |
+| Date.prototype  | Date 构造函数的原型对象。 |
+| Date.constructor| 返回对创建此对象的 Date 函数的引用。 |
 
 #### Date 对象方法
 
