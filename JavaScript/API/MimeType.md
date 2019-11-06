@@ -14,7 +14,7 @@
 
 | 属性	                 | 描述                     |
 | ---                    | ---                     |
-| application/octet-stream | MIME通用类型，这代表任意的二进制数据传 |
+| application/octet-stream | .* MIME通用类型，这代表任意的二进制数据传 |
 | ---- 文档 ---- | |
 | text/plain | txt |
 | application/pdf | pdf |
@@ -22,6 +22,7 @@
 | application/vnd.ms-works | wps |
 | application/msword | doc |
 | application/vnd.ms-excel | xls |
+| application/excel | xls|
 | application/vnd.ms-powerpoint | ppt |
 | application/vnd.openxmlformats-officedocument.wordprocessingml.document | docx |
 | application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | xlsx |
@@ -29,9 +30,10 @@
 | ---- 图片 ---- | |
 | image/bmp | bmp|
 | image/gif | gif|
-| image/jpeg | jpeg/jpg|
+| image/jpeg | jpeg/jpg/jpe|
 | image/png | png|
 | image/svg+xml | svg |
+| image/x-icon | ico |
 | image/webp | webp|
 | ---- 音频 ---- | |
 | audio/x-aac' | aac |
@@ -44,11 +46,13 @@
 | audio/x-ms-wmv | wmv |
 | audio/x-flac | flac |
 | audio/x-ape | ape |
-| audio/midi| midi |
+| audio/midi | midi |
+| audio/webm | weba |
 | ---- 视频 ---- | |
 | video/3gpp| 3gp |
 | video/x-ms-asf| asf |
 | video/x-msvideo| avi |
+| video/msvideo| avi |
 | video/x-ms-wmv| wmv |
 | video/x-matroska| mkv |
 | video/x-m4v| m4v |
@@ -60,5 +64,14 @@
 | video/x-f4v| f4v |
 | application/vnd.rn-realmedia| rm |
 | application/vnd.rn-realmedia-vbr| rmvb |
+| application/x-shockwave-flash | swf |
+| application/vnd.apple.mpegurl | m3u8 |
 | video/webm| webm |
-  
+| ---- 文件 ---- | |
+| application/xy | dat |
+| application/zip | zip |
+| application/x-zip-compressed |zip |
+| application/vnd.android.package-archive | apk |
+| text/csv | csv |
+| text/plain | conf |
+| application/x-iso9660-image | iso |

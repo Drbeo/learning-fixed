@@ -14,14 +14,14 @@ let blob = new Blob(array[optional], options[optional]);
 
 | 属性	 | 描述                     |
 | ---    | ---                     |
-| size	 | Blob 对象包含的字节数。(只读) |
-| type	 | 一个字符串，Blob 对象所包含数据的 `MIME` 类型。如果类型未知，则该值为空字符串。 |
+| Blob.size	 | Blob 对象包含的字节数。(只读) |
+| Blob.type	 | 一个字符串，Blob 对象所包含数据的 `MIME` 类型。如果类型未知，则该值为空字符串。 |
 
 #### Blob 对象方法
 
 | 属性	             | 描述                     |
 | ---                | ---                     |
-| Blob.slice(\[start\[, end\[, contentType]]])	 | 起始偏移量，结束偏移量，还有可选的 mime 类型。如果 mime 类型，没有设置，那么新的 Blob 对象的 mime 类型和父级一样。<br/>返回一个新的 Blob 对象，包含了源 Blob 对象中指定范围内的数据。 |
-| Blob.stream()	     | 将Blob转换为ReadableStream，该ReadableStream可用于读取Blob内容。 |
-| Blob.text()	     | 将Blob转换为流，并读取它以完成操作。 它返回一个USVString（文本） |
-| Blob.arrayBuffer() | 将Blob转换为流，并读取它以完成操作。 它返回一个ArrayBuffer。 |
+| slice(\[start\[, end\[, contentType]]])	 | 起始偏移量，结束偏移量，还有可选的 mime 类型。如果 mime 类型，没有设置，那么新的 Blob 对象的 mime 类型和父级一样。<br/>返回一个新的 Blob 对象，包含了源 Blob 对象中指定范围内的数据。 |
+| stream()	     | 将Blob转换为ReadableStream，该ReadableStream可用于读取Blob内容。 |
+| text()	     | 将Blob转换为流，并读取它以完成操作。 它返回一个USVString（文本） |
+| arrayBuffer() | 将Blob转换为流，并读取它以完成操作。 它返回一个ArrayBuffer。 |
