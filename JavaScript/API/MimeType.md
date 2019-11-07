@@ -46,6 +46,7 @@
 | audio/x-ms-wmv | wmv |
 | audio/x-flac | flac |
 | audio/x-ape | ape |
+| audio/mid | mid |
 | audio/midi | midi |
 | audio/webm | weba |
 | ---- 视频 ---- | |
