@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /*方案 一*/
+        canvas#defaultCanvas0{
+            opacity: 1;
+            position:absolute;
+            top:0;
+            left:0;
+            z-index: -1;
+        }
+    </style>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<!--    <script type="text/javascript" src="http://iprocessing.cn/wp-includes/js/jquery/jquery.js?ver=1.12.4"></script>-->
+    <script type="text/javascript" src="http://iprocessing.cn/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
+</head>
+<body>
+<header class="header marauto" id="_p5Animal" style="height: 497.16px;">
+    <canvas id="defaultCanvas0" width="923" height="637" style="width: 923px; height: 637.16px;"></canvas>
+</header>
+<!--<canvas id="defaultCanvas0" width="923" height="637" style="width: 923px; height: 637.16px;"></canvas>-->
+</body>
+<script>
+    $(function(){
+        $(".menu-header").delegate(".menu-item","click", function(){
+            var index = $(this).index();
+
+            if (index === 0){
+                $("#_p5Animal").css("height",gConHeight);
+                $("#defaultCanvas0").slideDown(500);
+            }else{
+                $("#_p5Animal").attr("style", "");
+                $("#defaultCanvas0").slideUp(500);
+            }
+
+        });
+    });
+</script>
+<script type="text/javascript" color="255,0,0" zindex="-1" opacity="0.5" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+</html>
