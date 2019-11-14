@@ -4,12 +4,20 @@
     <meta charset="UTF-8">
     <title>Canvas</title>
     <style type="text/css">
-        #test-canvas, #test-text-canvas {
-            border: 1px solid #f90;
-            margin: 0 auto;
+        body {
+            margin: 100px;
         }
+        /*#test-canvas, #test-text-canvas {*/
+        /*    border: 1px solid #f90;*/
+        /*    margin: 0 auto;*/
+        /*}*/
         canvas {
             border: 1px solid #eee;
+        }
+        img {
+            max-width: 300px;
+            max-height: 300px;
+            object-fit: scale-down;
         }
     </style>
 </head>
@@ -27,21 +35,180 @@
 <p>canvas 元素默认被网格所覆盖。通常来说网格中的一个单元相当于 canvas 元素中的一像素。栅格的起点为左上角，坐标为 (0,0) 。<br>
     所有元素的位置都相对于原点来定位。所以图中蓝色方形左上角的坐标为距离左边（X 轴）x 像素，距离上边（Y 轴）y 像素，坐标为 (x,y)。</p>
 <p>后面我们会涉及到坐标原点的平移、网格的旋转以及缩放等。</p>
-<p>背景图片如果不变可以直接用<img>标签并放到最底层。</p>
+<p>背景图片如果不变可以直接用< img>标签并放到最底层。</p>
 <canvas id="test-canvas" width="300" height="300">
     <p>你的浏览器太老了，该升级了，不支持canvas</p>
 </canvas>
 
 <canvas id="test-text-canvas" width="300" height="300"></canvas>
-<canvas id="canvas1" width="300" height="300"></canvas>
-<canvas id="canvas2" width="300" height="300"></canvas>
+<canvas id="scaleCircle" width="400" height="300"></canvas>
+<h2>绘制形状</h2>
+<section>
+    <pre>
+        栅格 (grid) 和坐标空间
+        如下图所示，canvas 元素默认被网格所覆盖。通常来说网格中的一个单元相当于 canvas 元素中的一像素。
+        栅格的起点为左上角，坐标为 (0,0) 。所有元素的位置都相对于原点来定位。
+        所以图中蓝色方形左上角的坐标为距离左边（X 轴）x 像素，距离上边（Y 轴）y 像素，坐标为 (x,y)。
+        后面我们会涉及到坐标原点的平移、网格的旋转以及缩放等。
+    </pre>
+    <img src="./assets/canvas/Canvas_default_grid.png" alt="">
+    <pre>
+        <​canvas> 只支持一种原生的图形绘制：矩形。
+        所有其他图形都至少需要生成一种路径 (path)。不过，我们拥有众多路径生成的方法让复杂图形的绘制成为了可能。
+
+        canvas 提供了三种方法绘制矩形：
+            1、fillRect(x, y, width, height)：绘制一个填充的矩形。
+            2、strokeRect(x, y, width, height)：绘制一个矩形的边框。
+            3、clearRect(x, y, widh, height)：清除指定的矩形区域，然后这块区域会变的完全透明。
+        说明：这 3 个方法具有相同的参数。
+            x, y：指的是矩形的左上角的坐标。(相对于canvas的坐标原点)
+            width, height：指的是绘制的矩形的宽和高。
+    </pre>
+    <canvas id="canvas1" width="300" height="300"></canvas>
+</section>
+<h2>绘制路径 (path)</h2>
+<section>
+    <pre>
+        图形的基本元素是路径。
+        路径是通过不同颜色和宽度的线段或曲线相连形成的不同形状的点的集合。
+        一个路径，甚至一个子路径，都是闭合的。
+        使用路径绘制图形需要一些额外的步骤：
+            1.创建路径起始点
+            2.调用绘制方法去绘制出路径
+            3.把路径封闭
+            4.一旦路径生成，通过描边或填充路径区域来渲染图形。
+        下面是需要用到的方法：
+            1.beginPath()   新建一条路径，路径一旦创建成功，图形绘制命令被指向到路径上生成路径
+            2.moveTo(x, y)  把画笔移动到指定的坐标(x, y)。相当于设置路径的起始点坐标。
+            3.closePath()   闭合路径之后，图形绘制命令又重新指向到上下文中
+            4.stroke()      通过线条来绘制图形轮廓
+            5.fill()        通过填充路径的内容区域生成实心的图形
+    </pre>
+    <canvas id="canvas2" width="300" height="300"></canvas>
+    <canvas id="canvas3" width="300" height="300"></canvas>
+    <canvas id="canvas4" width="300" height="300"></canvas>
+    <canvas id="canvas5" width="300" height="300"></canvas>
+</section>
+<h2>绘制圆弧</h2>
+<section>
+    <pre>
+        绘制圆弧
+        有两个方法可以绘制圆弧：
+        1. arc(x, y, r, startAngle, endAngle, anticlockwise):
+        以(x, y)为圆心，以r为半径，从 startAngle弧度开始到endAngle弧度结束。anticlosewise是布尔值，true表示逆时针，false表示顺时针(默认是顺时针)。
+        注意：
+            1. 这里的度数都是弧度。
+            2. 0 弧度是指的 x 轴正方形。
+            radians=(Math.PI/180)*degrees   //角度转换成弧度
+        2、arcTo(x1, y1, x2, y2, radius): 根据给定的控制点和半径画一段圆弧，最后再以直线连接两个控制点。
+    </pre>
+    <canvas id="canvas6" width="300" height="300"></canvas>
+    <canvas id="canvas7" width="300" height="300"></canvas>
+    <canvas id="canvas8" width="300" height="300"></canvas>
+    <img src="./assets/canvas/arcTo.png" alt="">
+</section>
+<h2>绘制贝塞尔曲线</h2>
+<section>
+    <pre>
+        贝塞尔曲线(Bézier curve)，又称贝兹曲线或贝济埃曲线，是应用于二维图形应用程序的数学曲线。
+        一般的矢量图形软件通过它来精确画出曲线，贝兹曲线由线段与节点组成，节点是可拖动的支点，线段像可伸缩的皮筋，
+        我们在绘图工具上看到的钢笔工具就是来做这种矢量曲线的。
+        贝塞尔曲线是计算机图形学中相当重要的参数曲线，在一些比较成熟的位图软件中也有贝塞尔曲线工具如 PhotoShop 等。
+        贝塞尔曲线于 1962，由法国工程师皮埃尔·贝塞尔（Pierre Bézier）所广泛发表，他运用贝塞尔曲线来为汽车的主体进行设计。
+        贝塞尔曲线最初由Paul de Casteljau 于 1959 年运用 de Casteljau 演算法开发，以稳定数值的方法求出贝兹曲线。
+    </pre>
+    <article>
+        <h3>一次贝塞尔曲线其实是一条直线</h3>
+        <img src="./assets/canvas/Bezier1.gif" alt="">
+    </article>
+    <article>
+        <h3>二次贝塞尔曲线</h3>
+        <img src="./assets/canvas/Bezier2.gif" alt="">
+        <img src="./assets/canvas/Bezier22.png" alt="">
+    </article>
+    <article>
+        <h3>三次贝塞尔曲线</h3>
+        <img src="./assets/canvas/Bezier3.gif" alt="">
+        <img src="./assets/canvas/Bezier33.png" alt="">
+    </article>
+    <canvas id="canvas9" width="300" height="300"></canvas>
+    <canvas id="canvas10" width="300" height="300"></canvas>
+</section>
+<h2>添加样式和颜色</h2>
+<section>
+    <pre>
+        在前面的绘制矩形章节中，只用到了默认的线条和颜色。
+        如果想要给图形上色，有两个重要的属性可以做到。
+            fillStyle = color 设置图形的填充颜色
+            strokeStyle = color 设置图形轮廓的颜色
+            说明
+                1. color 可以是表示 css 颜色值的字符串、渐变对象或者图案对象。
+                2. 默认情况下，线条和填充颜色都是黑色。
+                3. 一旦您设置了 strokeStyle 或者 fillStyle 的值，那么这个新值就会成为新绘制的图形的默认值。
+                如果你要给每个图形上不同的颜色，你需要重新设置 fillStyle 或 strokeStyle 的值。
+    </pre>
+    <canvas id="canvas11" width="300" height="300"></canvas>
+    <canvas id="canvas12" width="300" height="300"></canvas>
+</section>
+<h2>常用样式</h2>
+<section>
+    <pre>
+        Transparency(透明度)
+            globalAlpha = transparencyValue: 这个属性影响到 canvas 里 所有 图形的透明度，
+               有效的值范围是 0.0 （完全透明）到 1.0（完全不透明），默认是 1.0。
+            globalAlpha 属性在需要绘制大量拥有相同透明度的图形时候相当高效。
+
+            不过，使用rgba()设置透明度更加好一些。
+
+        1、line style
+            线宽。只能是正值。默认是 1.0。
+            起始点和终点的连线为中心，上下各占线宽的一半。
+
+        2. lineCap = type
+            线条末端样式。
+            共有 3 个值：
+                butt：线段末端以方形结束
+                round：线段末端以圆形结束
+                square：线段末端以方形结束，但是增加了一个宽度和线段相同，高度是线段厚度一半的矩形区域。
+
+        3. lineJoin = type
+            同一个 path 内，设定线条与线条间接合处的样式。
+            共有 3 个值 round, bevel 和 miter：
+                round 通过填充一个额外的，圆心在相连部分末端的扇形，绘制拐角的形状。 圆角的半径是线段的宽度。
+                bevel 在相连部分的末端填充一个额外的以三角形为底的区域， 每个部分都有各自独立的矩形拐角。
+                miter(默认) 通过延伸相连部分的外边缘，使其相交于一点，形成一个额外的菱形区域。
+
+        4. 虚线
+            用 setLineDash 方法和 lineDashOffset 属性来制定虚线样式。
+            setLineDash 方法接受一个数组，来指定线段与间隙的交替；lineDashOffset属性设置起始偏移量。
+            getLineDash() 返回一个包含当前虚线样式，长度为非负偶数的数组。
+    </pre>
+    <canvas id="canvas13" width="300" height="300"></canvas>
+    <canvas id="canvas14" width="300" height="300"></canvas>
+    <canvas id="canvas15" width="300" height="300"></canvas>
+    <canvas id="canvas16" width="300" height="300"></canvas>
+</section>
+<h2>绘制文本</h2>
+<section>
+    <pre>
+        绘制文本的两个方法
+            fillText(text, x, y [, maxWidth]) 在指定的 (x,y) 位置填充指定的文本，绘制的最大宽度是可选的。
+            strokeText(text, x, y [, maxWidth]) 在指定的 (x,y) 位置绘制文本边框，绘制的最大宽度是可选的。
+
+        给文本添加样式
+            font = value 当前我们用来绘制文本的样式。这个字符串使用和 CSS font 属性相同的语法。 默认的字体是 10px sans-serif。
+            textAlign = value 文本对齐选项。 可选的值包括：start, end, left, right or center。 默认值是 start。
+            textBaseline = value 基线对齐选项，可选的值包括：top, hanging, middle, alphabetic, ideographic, bottom。默认值是 alphabetic。。
+            direction = value 文本方向。可能的值包括：ltr, rtl, inherit。默认值是 inherit。
+    </pre>
+    <canvas id="canvas17" width="300" height="300"></canvas>
+    <canvas id="canvas18" width="300" height="300"></canvas>
+    <canvas id="canvas19" width="300" height="300"></canvas>
+    <canvas id="canvas20" width="300" height="300"></canvas>
+    <canvas id="canvas21" width="300" height="300"></canvas>
+</section>
 </body>
 <script>
-    window.onload = () => {
-        testCanvas()
-        testTextCanvas()
-        draw1()
-    }
     function testCanvas () {
         let canvas = document.getElementById('test-canvas')
         // 检测支持性
@@ -87,7 +254,25 @@
             console.log('你的浏览器不支持Canvas!');
         }
     }
-
+    function scaleCircle(){
+        let canvas = document.getElementById('scaleCircle');
+        if (!canvas.getContext) return;
+        let context = canvas.getContext("2d");
+        context.translate(250,20);
+        for (var i = 0; i < 80; i++) {
+            context.save(); //保存上一次画布的设置
+            context.translate(30,30);//每次迭代新的原点都移动到上一次原坐标的(30,30)
+            context.scale(0.95,0.95);//每次迭代横纵因子都缩小到原来的0.9倍
+            context.rotate(Math.PI/12)//旋转
+            context.beginPath();//开始进行绘制
+            // context.fillStyle = "red";
+            // context.globalAlpha="0.4";//设置颜色透明度
+            context.fillStyle= "rgba(155, 187, 89, 0.7)";
+            context.arc(0,0,50,0,Math.PI*2,true);//绘制圆
+            context.closePath();
+            context.fill();
+        }
+    }
     /**
      * 绘制矩形
      * 1、fillRect(x, y, width, height)：绘制一个填充的矩形。
@@ -119,15 +304,412 @@
      *   4.一旦路径生成，通过描边或填充路径区域来渲染图形。
      * 下面是需要用到的方法：
      *    1.beginPath()   新建一条路径，路径一旦创建成功，图形绘制命令被指向到路径上生成路径
-     *    2.moveTo(x, y)   把画笔移动到指定的坐标(x, y)。相当于设置路径的起始点坐标。
+     *    2.moveTo(x, y)  把画笔移动到指定的坐标(x, y)。相当于设置路径的起始点坐标。
      *    3.closePath()   闭合路径之后，图形绘制命令又重新指向到上下文中
-     *    4.stroke()  通过线条来绘制图形轮廓
-     *    5.fill()  通过填充路径的内容区域生成实心的图形
+     *    4.stroke()      通过线条来绘制图形轮廓
+     *    5.fill()        通过填充路径的内容区域生成实心的图形
      */
+    // 绘制线段
     function draw2 () {
         let canvas = document.getElementById('canvas2')
         if(!canvas.getContext) return;
         let ctx = canvas.getContext("2d");
+        ctx.font = '16px Arial'
+        ctx.fillText('绘制线段', 50, 40)
+        ctx.beginPath(); // 新建一条path
+        ctx.moveTo(50, 50); // 把画笔移动到指定的坐标
+        ctx.lineTo(200, 50); // 绘制一条从当前位置到指定坐标(200, 50)的直线.
+        // ctx.closePath(); // 闭合路径。会拉一条从当前点到path起始点的直线。如果当前点与起始点重合，则什么都不做
+        ctx.stroke(); // 绘制路径。
+
+    }
+    // 绘制三角形两条边框
+    function draw3 () {
+        let canvas = document.getElementById('canvas3')
+        if(!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.font = '16px Microsoft YaHei'
+        ctx.fillText('绘制三角形两条边框', 50, 40)
+        ctx.beginPath();
+        ctx.moveTo(50, 50);
+        ctx.lineTo(200, 50);
+        ctx.lineTo(200, 200);
+        ctx.stroke();
+
+    }
+    // 绘制三角形边框
+    function draw4 () {
+        let canvas = document.getElementById('canvas4')
+        if(!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.font = '14px Microsoft YaHei'
+        ctx.fillText('绘制三角形边框，closePath关闭一条', 30, 40)
+        ctx.beginPath();
+        ctx.moveTo(50, 50);
+        ctx.lineTo(200, 50);
+        ctx.lineTo(200, 200);
+        ctx.closePath(); // 虽然我们只绘制了两条线段，但是closePath会closePath，首尾相连，仍然是一个3角形
+        ctx.stroke();
+    }
+    // 绘制三角形填充
+    function draw5 () {
+        let canvas = document.getElementById('canvas5')
+        if(!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.font = '14px Microsoft YaHei'
+        ctx.fillText('绘制三角形边框，closePath关闭一条', 30, 40)
+        ctx.beginPath(); // 新建一条path
+        ctx.moveTo(50, 50); // 把画笔移动到指定的坐标
+        ctx.lineTo(200, 50); // 绘制一条从当前位置到指定坐标(200, 50)的直线.
+        // ctx.closePath(); // 闭合路径。会拉一条从当前点到path起始点的直线。如果当前点与起始点重合，则什么都不做
+        ctx.lineTo(200, 200);
+        ctx.closePath(); // 虽然我们只绘制了两条线段，但是closePath会closePath，首尾相连，仍然是一个3角形
+        ctx.stroke();// 绘制路径。
+        ctx.fillStyle = '#f90' // 填充样式 默认#000
+        ctx.fill(); // 填充闭合区域。如果path没有闭合，则fill()会自动闭合路径。
+    }
+
+    /**
+     * 绘制圆弧
+     * 有两个方法可以绘制圆弧：
+     * 1. arc(x, y, r, startAngle, endAngle, anticlockwise):
+     * 以(x, y)为圆心，以r为半径，从 startAngle弧度开始到endAngle弧度结束。anticlosewise是布尔值，true表示逆时针，false表示顺时针(默认是顺时针)。
+     *   注意：
+     *       1. 这里的度数都是弧度。
+     *       2. 0 弧度是指的 x 轴正方形。
+     *       radians=(Math.PI/180)*degrees   //角度转换成弧度
+     * 2、arcTo(x1, y1, x2, y2, radius): 根据给定的控制点和半径画一段圆弧，最后再以直线连接两个控制点。
+     */
+    function draw6(){
+        let canvas = document.getElementById('canvas6');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.beginPath(); // 新建一条path
+        ctx.fillText('arc(50, 50, 40, 0, Math.PI / 2, false)', 50, 40)
+        ctx.arc(50, 50, 40, 0, Math.PI / 2, false);  // 以(50, 50)为圆心，以40为半径，从0弧度开始到90弧度结束。false表示顺时针(默认是顺时针)。
+        ctx.stroke(); // 绘制路径。
+    }
+    // 同时画多个图形
+    function draw7(){
+        let canvas = document.getElementById('canvas7');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.beginPath();
+        ctx.fillText('arc(50, 50, 40, 0, Math.PI / 2, false)', 50, 210)
+        ctx.arc(50, 50, 40, 0, Math.PI / 2, false);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.fillText('arc(150, 50, 40, 0, -Math.PI / 2, true)', 50, 230)
+        ctx.arc(150, 50, 40, 0, -Math.PI / 2, true);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.fillStyle = '#960' // 填充样式 默认#000
+        ctx.fillText('arc(50, 150, 40, -Math.PI / 2, Math.PI / 2, false)', 50, 250)
+        ctx.arc(50, 150, 40, -Math.PI / 2, Math.PI / 2, false);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = '#f90' // 填充样式 默认#000
+        ctx.fillText('arc(150, 150, 40, 0, Math.PI, false)', 50, 270)
+        ctx.arc(150, 150, 40, 0, Math.PI, false);
+        ctx.fill();
+    }
+    // arcTo 方法的说明：
+    // 这个方法可以这样理解。绘制的弧形是由两条切线所决定。
+    // 第 1 条切线：起始点和控制点1决定的直线。
+    // 第 2 条切线：控制点1 和控制点2决定的直线。
+    // 其实绘制的圆弧就是与这两条直线相切的圆弧。
+    function draw8(){
+        let canvas = document.getElementById('canvas8');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.beginPath(); // 新建一条path
+        ctx.fillText('arcTo(200, 50, 200, 200, 100)', 50, 40)
+        ctx.moveTo(50, 50); // 画笔起始点
+        ctx.arcTo(200, 50, 200, 200, 100) // 参数1、2：控制点1坐标   参数3、4：控制点2坐标  参数4：圆弧半径
+        ctx.lineTo(200, 200)
+        ctx.stroke(); // 绘制路径。
+    }
+
+    /**
+     * 贝塞尔曲线(Bezier curve)，又称贝兹曲线或贝济埃曲线，是应用于二维图形应用程序的数学曲线。
+     * 一般的矢量图形软件通过它来精确画出曲线，贝兹曲线由线段与节点组成，
+     * 节点是可拖动的支点，线段像可伸缩的皮筋，我们在绘图工具上看到的钢笔工具就是来做这种矢量曲线的。
+     * https://cubic-bezier.com/#0,1.95,1,-0.69
+     *   绘制二次贝塞尔曲线:
+     *      quadraticCurveTo(cp1x, cp1y, x, y)  // cp1x, cp1y：控制点坐标  x, y：结束点坐标
+     *   绘制三次贝塞尔曲线:
+     *      bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)  // cp1x, cp1y：控制点1的坐标  cp2x, cp2y：控制点1的坐标  x, y：结束点坐标
+     */
+    // 绘制二次贝塞尔曲线
+    function draw9(){
+        let canvas = document.getElementById('canvas9');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.beginPath(); // 新建一条path
+        ctx.moveTo(10, 200); // 起始点
+        let cp1x = 40, cp1y = 100;  //控制点
+        let x = 200, y = 200; // 结束点
+        ctx.quadraticCurveTo(cp1x, cp1y, x, y); // 绘制二次贝塞尔曲线
+        ctx.stroke(); // 绘制路径。
+
+        ctx.beginPath(); // 描点
+
+        ctx.rect(10, 200, 5, 5); // 起始点
+        ctx.fillText('起始点', 20, 200)
+        ctx.rect(cp1x, cp1y, 5, 5); // 控制点
+        ctx.fillText('控制点1', cp1x+10, cp1y)
+        ctx.rect(x, y, 5, 5); // 结束点
+        ctx.fillText('结束点', x+10, y)
+        ctx.fill();
+    }
+    // 绘制三次贝塞尔曲线
+    function draw10(){
+        let canvas = document.getElementById('canvas10');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.beginPath();
+        ctx.moveTo(40, 200); //起始点
+        let cp1x = 20, cp1y = 100;  //控制点1
+        let cp2x = 100, cp2y = 120;  //控制点2
+        let x = 200, y = 200; // 结束点
+        //绘制二次贝塞尔曲线
+        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+        ctx.stroke();
+
+        ctx.beginPath(); // 描点
+        ctx.rect(40, 200, 5, 5);// 起始点
+        ctx.fillText('起始点', 50, 200)
+        ctx.rect(cp1x, cp1y, 5, 5); // 控制点1
+        ctx.fillText('控制点1', cp1x+10, cp1y)
+        ctx.rect(cp2x, cp2y, 5, 5); // 控制点2
+        ctx.fillText('控制点2', cp2x+10, cp2y)
+        ctx.rect(x, y, 5, 5); // 结束点
+        ctx.fillText('结束点', x+10, y)
+        ctx.fill();
+    }
+
+    /**
+     * 添加样式和颜色
+     * 在前面的绘制矩形章节中，只用到了默认的线条和颜色。
+     * 如果想要给图形上色，有两个重要的属性可以做到。
+     *   fillStyle = color 设置图形的填充颜色
+     *   strokeStyle = color 设置图形轮廓的颜色
+     *   说明
+     *      1. color 可以是表示 css 颜色值的字符串、渐变对象或者图案对象。
+     *      2. 默认情况下，线条和填充颜色都是黑色。
+     *      3. 一旦您设置了 strokeStyle 或者 fillStyle 的值，那么这个新值就会成为新绘制的图形的默认值。
+     *         如果你要给每个图形上不同的颜色，你需要重新设置 fillStyle 或 strokeStyle 的值。
+     */
+    // fillStyle
+    function draw11 () {
+        let canvas = document.getElementById('canvas11')
+        if (!canvas.getContext) return
+        let ctx = canvas.getContext('2d')
+        for (let i = 0; i < 6; i++) {
+            for (let j = 0; j < 6; j++) {
+                ctx.fillStyle = 'rgb(' + Math.floor(255 - 42.5 * i) + ',' + Math.floor(255 - 42.5 * j) + ',0)' // 设置颜色
+                ctx.fillRect(j * 50, i * 50, 50, 50) // 绘制矩形
+            }
+        }
+    }
+    // strokeStyle
+    function draw12 () {
+        let canvas = document.getElementById('canvas12')
+        if (!canvas.getContext) return
+        let ctx = canvas.getContext('2d')
+        for (let i = 0; i < 6; i++) {
+            for (let j = 0; j < 6; j++) {
+                ctx.strokeStyle = `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`
+                ctx.strokeRect(5 + j * 50, 5 + i * 50, 40, 40)
+            }
+        }
+    }
+    /**
+     返回随机的 [from, to] 之间的整数(包括from，也包括to)
+     */
+    function randomInt(from, to){
+        return parseInt(Math.random() * (to - from + 1) + from);
+    }
+
+    /**
+     * Transparency(透明度)
+     * globalAlpha = transparencyValue: 这个属性影响到 canvas 里 所有 图形的透明度，
+     *    有效的值范围是 0.0 （完全透明）到 1.0（完全不透明），默认是 1.0。
+     * globalAlpha 属性在需要绘制大量拥有相同透明度的图形时候相当高效。
+     *
+     * 不过，使用rgba()设置透明度更加好一些。
+     */
+    /**
+     * 1、line style
+     *    线宽。只能是正值。默认是 1.0。
+     *    起始点和终点的连线为中心，上下各占线宽的一半。
+     */
+
+    function draw13 () {
+        let canvas = document.getElementById('canvas13')
+        if (!canvas.getContext) return
+        let ctx = canvas.getContext('2d')
+        ctx.beginPath();
+        ctx.moveTo(10, 10);
+        ctx.lineTo(100, 10);
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(110, 10);
+        ctx.lineTo(160, 10)
+        ctx.strokeStyle = `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`
+        ctx.lineWidth = 20;
+        ctx.stroke()
+    }
+
+    /**
+     * 2. lineCap = type
+     *    线条末端样式。
+     *    共有 3 个值：
+     *    butt：线段末端以方形结束
+     *    round：线段末端以圆形结束
+     *    square：线段末端以方形结束，但是增加了一个宽度和线段相同，高度是线段厚度一半的矩形区域。
+     */
+    function draw14 () {
+        let canvas = document.getElementById('canvas14')
+        if (!canvas.getContext) return
+        let ctx = canvas.getContext('2d')
+        let lineCaps = ["butt", "round", "square"]; // 方形，圆形， 半个宽度矩形
+
+        for (let i = 0; i < 3; i++){
+            ctx.beginPath();
+            ctx.moveTo(50 + 50 * i, 30);
+            ctx.lineTo(50 + 50 * i, 100);
+            ctx.lineWidth = 20;
+            ctx.strokeStyle = `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`
+            ctx.lineCap = lineCaps[i];
+            ctx.stroke();
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(0, 30);
+        ctx.lineTo(300, 30);
+
+        ctx.moveTo(0, 100);
+        ctx.lineTo(300, 100)
+
+        ctx.strokeStyle = "red";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+    }
+
+    /**
+     * 3. lineJoin = type
+     *    同一个 path 内，设定线条与线条间接合处的样式。
+     *    共有 3 个值 round, bevel 和 miter：
+     *        round 通过填充一个额外的，圆心在相连部分末端的扇形，绘制拐角的形状。 圆角的半径是线段的宽度。
+     *        bevel 在相连部分的末端填充一个额外的以三角形为底的区域， 每个部分都有各自独立的矩形拐角。
+     *        miter(默认) 通过延伸相连部分的外边缘，使其相交于一点，形成一个额外的菱形区域。
+     */
+    function draw15 (){
+        let canvas = document.getElementById('canvas15');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+
+        let lineJoin = ['round', 'bevel', 'miter'];
+        ctx.lineWidth = 20;
+
+        for (let i = 0; i < lineJoin.length; i++){
+            ctx.lineJoin = lineJoin[i];
+            ctx.strokeStyle = `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`
+            ctx.beginPath();
+            let padding = 80
+            ctx.moveTo(50, 50 + i * padding);
+            ctx.lineTo(100, 100 + i * padding);
+            ctx.lineTo(150, 50 + i * padding);
+            ctx.lineTo(200, 100 + i * padding);
+            ctx.lineTo(250, 50 + i * padding);
+            ctx.stroke();
+        }
+    }
+
+    /**
+     * 4. 虚线
+     *     用 setLineDash 方法和 lineDashOffset 属性来制定虚线样式。
+     *     setLineDash 方法接受一个数组，来指定线段与间隙的交替；lineDashOffset属性设置起始偏移量。
+     *     getLineDash() 返回一个包含当前虚线样式，长度为非负偶数的数组。
+     */
+    function draw16 (){
+        let canvas = document.getElementById('canvas16');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+
+        ctx.setLineDash([16, 5]);  // [实线长度, 间隙长度]
+        // ctx.lineDashOffset = -0; // 起始偏移量
+        ctx.lineDashOffset = 8; // 起始偏移量
+        ctx.strokeRect(50, 50, 210, 210);
+        console.log('虚线样式', ctx.getLineDash())
+    }
+
+    /**
+     * 六、绘制文本
+     * 绘制文本的两个方法
+     *     fillText(text, x, y [, maxWidth]) 在指定的 (x,y) 位置填充指定的文本，绘制的最大宽度是可选的。
+     *     strokeText(text, x, y [, maxWidth]) 在指定的 (x,y) 位置绘制文本边框，绘制的最大宽度是可选的。
+     * 给文本添加样式
+     *     font = value 当前我们用来绘制文本的样式。这个字符串使用和 CSS font 属性相同的语法。 默认的字体是 10px sans-serif。
+     *     textAlign = value 文本对齐选项。 可选的值包括：start, end, left, right or center。 默认值是 start。
+     *     textBaseline = value 基线对齐选项，可选的值包括：top, hanging, middle, alphabetic, ideographic, bottom。默认值是 alphabetic。。
+     *     direction = value 文本方向。可能的值包括：ltr, rtl, inherit。默认值是 inherit。
+     */
+    function draw17 (){
+        let canvas = document.getElementById('canvas17');
+        if (!canvas.getContext) return;
+        ctx = canvas.getContext("2d");
+        ctx.font = "36px sans-serif" // 字体大小 字体样式
+        ctx.fillText("世人都说神仙好", 10, 100);
+        ctx.strokeText("惟有功名忘不了", 10, 200)
+    }
+
+    /**
+     * 七、绘制图片
+     * 我们也可以在 canvas 上直接绘制图片。
+     *
+     * 注意：考虑到图片是从网络加载，如果 drawImage 的时候图片还没有完全加载完成，则什么都不做，个别浏览器会抛异常。所以我们应该保证在 img 绘制完成之后再 drawImage。
+     */
+    function draw18 (){
+        let canvas = document.getElementById('canvas18');
+        if (!canvas.getContext) return;
+        ctx = canvas.getContext("2d");
+        let img = new Image();   // 创建一个<img>元素
+        img.src = './assets/canvas/666666.png'; // 设置图片源地址
+        img.onload = function(){
+            ctx.drawImage(img, 0, 0)  // 参数 1：要绘制的img,  参数 2、3：绘制的 img 在 canvas 中的坐标
+        }
+        // ctx.drawImage(img,0,0);  // 参数 1：要绘制的img,  参数 2、3：绘制的 img 在 canvas 中的坐标
+    }
+    window.onload = () => {
+        testCanvas()
+        testTextCanvas()
+        scaleCircle()
+        draw1()
+        draw2()
+        draw3()
+        draw4()
+        draw5()
+        draw6()
+        draw7()
+        draw8()
+        draw9()
+        draw10()
+        draw11()
+        draw12()
+        draw13()
+        draw14()
+        draw15()
+        draw16()
+        draw17()
     }
 </script>
 </html>
