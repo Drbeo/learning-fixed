@@ -19,23 +19,27 @@
             max-height: 300px;
             object-fit: scale-down;
         }
+        .img1 {
+            display: none;
+        }
     </style>
 </head>
 <body>
+<section>
+    <p>Canvas的坐标以左上角为原点，水平向右为X轴，垂直向下为Y轴，以像素为单位，所以每个点都是非负整数。</p>
 
-<p>Canvas的坐标以左上角为原点，水平向右为X轴，垂直向下为Y轴，以像素为单位，所以每个点都是非负整数。</p>
+    <h2>Canvas除了能绘制基本的形状和文本，还可以实现动画、缩放、各种滤镜和像素转换等高级操作。如果要实现非常复杂的操作，考虑以下优化方案：</h2>
 
-<h2>Canvas除了能绘制基本的形状和文本，还可以实现动画、缩放、各种滤镜和像素转换等高级操作。如果要实现非常复杂的操作，考虑以下优化方案：</h2>
+    <p>通过创建一个不可见的Canvas来绘图，然后将最终绘制结果复制到页面的可见Canvas中；</p>
 
-<p>通过创建一个不可见的Canvas来绘图，然后将最终绘制结果复制到页面的可见Canvas中；</p>
+    <p>尽量使用整数坐标而不是浮点数；</p>
 
-<p>尽量使用整数坐标而不是浮点数；</p>
-
-<p>可以创建多个重叠的Canvas绘制不同的层，而不是在一个Canvas中绘制非常复杂的图；</p>
-<p>canvas 元素默认被网格所覆盖。通常来说网格中的一个单元相当于 canvas 元素中的一像素。栅格的起点为左上角，坐标为 (0,0) 。<br>
-    所有元素的位置都相对于原点来定位。所以图中蓝色方形左上角的坐标为距离左边（X 轴）x 像素，距离上边（Y 轴）y 像素，坐标为 (x,y)。</p>
-<p>后面我们会涉及到坐标原点的平移、网格的旋转以及缩放等。</p>
-<p>背景图片如果不变可以直接用< img>标签并放到最底层。</p>
+    <p>可以创建多个重叠的Canvas绘制不同的层，而不是在一个Canvas中绘制非常复杂的图；</p>
+    <p>canvas 元素默认被网格所覆盖。通常来说网格中的一个单元相当于 canvas 元素中的一像素。栅格的起点为左上角，坐标为 (0,0) 。<br>
+        所有元素的位置都相对于原点来定位。所以图中蓝色方形左上角的坐标为距离左边（X 轴）x 像素，距离上边（Y 轴）y 像素，坐标为 (x,y)。</p>
+    <p>后面我们会涉及到坐标原点的平移、网格的旋转以及缩放等。</p>
+    <p>背景图片如果不变可以直接用< img>标签并放到最底层。</p>
+</section>
 <canvas id="test-canvas" width="300" height="300">
     <p>你的浏览器太老了，该升级了，不支持canvas</p>
 </canvas>
@@ -202,10 +206,76 @@
             direction = value 文本方向。可能的值包括：ltr, rtl, inherit。默认值是 inherit。
     </pre>
     <canvas id="canvas17" width="300" height="300"></canvas>
+</section>
+<h2>绘制图片</h2>
+<section>
+    <pre>
+        由零开始创建图片
+            var img = new Image();   // 创建一个< img>元素
+            img.src = 'myImage.png'; // 设置图片源地址
+
+        绘制 img
+            ctx.drawImage(img,0,0);  // 参数1：要绘制的img, 参数2、3：绘制的img在canvas中的坐标
+
+        注意：考虑到图片是从网络加载，如果 drawImage 的时候图片还没有完全加载完成，则什么都不做，个别浏览器会抛异常。所以我们应该保证在 img 绘制完成之后再 drawImage。
+            var img = new Image();   // 创建img元素
+            img.onload = function(){
+                ctx.drawImage(img, 0, 0) // 绘制 img
+            }
+            img.src = 'myImage.png'; // 设置图片源地址
+
+        img 可以 new 也可以来源于我们页面的 < img>标签。
+
+        缩放图片
+            drawImage(image, x, y, width, height) // 图片 x，y 坐标  width, height  图片尺寸
+
+        切片(slice)
+            drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)  // 图片 前4个是定义图像源的切片位置和大小，后4个则是定义切片的目标显示位置和大小。
+    </pre>
     <canvas id="canvas18" width="300" height="300"></canvas>
     <canvas id="canvas19" width="300" height="300"></canvas>
+    <img class="img" src="./assets/canvas/666666.png" alt="">
+    <br>
+    <img class="img1" src="./assets/canvas/鸟.jpg" alt="">
     <canvas id="canvas20" width="300" height="300"></canvas>
     <canvas id="canvas21" width="300" height="300"></canvas>
+    <img src="./assets/canvas/slice.jpeg" alt="">
+</section>
+<h2>状态的保存和恢复</h2>
+<section>
+    <pre>
+        Saving and restoring state 是绘制复杂图形时必不可少的操作。
+
+        save() 和 restore()
+            save 和 restore 方法是用来保存和恢复 canvas 状态的，都没有参数。
+
+        Canvas 的状态就是当前画面应用的所有样式和变形的一个快照。
+
+        1、关于 save() ：Canvas状态存储在栈中，每当save()方法被调用后，当前的状态就被推送到栈中保存。
+           一个绘画状态包括：
+              1. 当前应用的变形（即移动，旋转和缩放）
+              2. strokeStyle, fillStyle, globalAlpha, lineWidth, lineCap, lineJoin, miterLimit,
+                 shadowOffsetX, shadowOffsetY, shadowBlur, shadowColor, globalCompositeOperation 的值
+              3. 当前的裁切路径（clipping path）
+
+        *** 可以调用任意多次 save方法(类似数组的 push())。
+
+        2、关于restore()：每一次调用 restore 方法，上一个保存的状态就从栈中弹出，所有设定都恢复(类似数组的 pop())。
+    </pre>
+    <canvas id="canvas22" width="300" height="300"></canvas>
+</section>
+<h2>变形</h2>
+<section>
+    <pre>
+        translate
+    </pre>
+    <img src="./assets/canvas/translate.png" alt="">
+    <canvas id="canvas23" width="300" height="300"></canvas>
+    <br>
+    <img src="./assets/canvas/rotate.png" alt="">
+    <canvas id="canvas24" width="300" height="300"></canvas>
+    <br>
+    <canvas id="canvas25" width="300" height="300"></canvas>
 </section>
 </body>
 <script>
@@ -649,7 +719,7 @@
         // ctx.lineDashOffset = -0; // 起始偏移量
         ctx.lineDashOffset = 8; // 起始偏移量
         ctx.strokeRect(50, 50, 210, 210);
-        console.log('虚线样式', ctx.getLineDash())
+        console.log('虚线样式', ctx.getLineDash());
     }
 
     /**
@@ -667,28 +737,182 @@
         let canvas = document.getElementById('canvas17');
         if (!canvas.getContext) return;
         ctx = canvas.getContext("2d");
-        ctx.font = "36px sans-serif" // 字体大小 字体样式
+        ctx.font = "36px sans-serif"; // 字体大小 字体样式
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle'
+        ctx.direction = 'ltr'
         ctx.fillText("世人都说神仙好", 10, 100);
-        ctx.strokeText("惟有功名忘不了", 10, 200)
+        ctx.strokeText("惟有功名忘不了", 10, 200);
     }
 
     /**
      * 七、绘制图片
      * 我们也可以在 canvas 上直接绘制图片。
+     * 由零开始创建图片
+     *      var img = new Image();   // 创建一个<img>元素
+     *      img.src = 'myImage.png'; // 设置图片源地址
+     * 绘制 img
+     *      ctx.drawImage(img,0,0);  // 参数 1：要绘制的img,  参数 2、3：绘制的 img 在 canvas 中的坐标
      *
      * 注意：考虑到图片是从网络加载，如果 drawImage 的时候图片还没有完全加载完成，则什么都不做，个别浏览器会抛异常。所以我们应该保证在 img 绘制完成之后再 drawImage。
+     *    var img = new Image();   // 创建img元素
+     *         img.onload = function(){
+     *        ctx.drawImage(img, 0, 0)
+     *    }
+     *    img.src = 'myImage.png'; // 设置图片源地址
+     *
+     * 绘制 img 标签元素中的图片
+     * img 可以 new 也可以来源于我们页面的 <img>标签。
+     *
+     * 缩放图片
+     *     drawImage(image, x, y, width, height) // 图片 x，y 坐标  width, height  图片尺寸
+     * 切片(slice)
+     *     drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)  // 图片 前4个是定义图像源的切片位置和大小，后4个则是定义切片的目标显示位置和大小。
      */
+    // new 一个 Image
     function draw18 (){
         let canvas = document.getElementById('canvas18');
         if (!canvas.getContext) return;
         ctx = canvas.getContext("2d");
         let img = new Image();   // 创建一个<img>元素
         img.src = './assets/canvas/666666.png'; // 设置图片源地址
-        img.onload = function(){
-            ctx.drawImage(img, 0, 0)  // 参数 1：要绘制的img,  参数 2、3：绘制的 img 在 canvas 中的坐标
-        }
-        // ctx.drawImage(img,0,0);  // 参数 1：要绘制的img,  参数 2、3：绘制的 img 在 canvas 中的坐标
+        // 考虑到图片是从网络加载，如果 drawImage 的时候图片还没有完全加载完成，则什么都不做，个别浏览器会抛异常。所以我们应该保证在 img 绘制完成之后再 drawImage。
+        // img.onload = function(){ // 多个canvas 会跑到最后一个canvas里面去
+        //     ctx.drawImage(img, 0, 0);  // 参数 1：要绘制的img,  参数 2、3：绘制的 img 在 canvas 中的坐标
+        // }
+        ctx.drawImage(img,0,0);  // 参数 1：要绘制的img,  参数 2、3：绘制的 img 在 canvas 中的坐标
     }
+    // 从img标签获取
+    function draw19 (){
+        let canvas = document.getElementById('canvas19');
+        if (!canvas.getContext) return;
+        ctx = canvas.getContext("2d");
+        let img = document.querySelector(".img");   // 获取一个<img>元素
+        console.log(img)
+        ctx.drawImage(img, 50, 50);  // 参数 1：要绘制的img,  参数 2、3：绘制的 img 在 canvas 中的坐标
+    }
+    // // 缩放图片
+    function draw20 (){
+        let canvas = document.getElementById('canvas20');
+        if (!canvas.getContext) return;
+        ctx = canvas.getContext("2d");
+        // let img = new Image();   // 创建一个<img>元素
+        // img.src = './assets/canvas/鸟.jpg'; // 设置图片源地址
+        let img = document.querySelector(".img1");
+        ctx.drawImage(img,50, 50, 192, 108);  // 参数 1：要绘制的img,  参数 2、3：绘制的 img 在 canvas 中的坐标， 参数 4、5：绘制的img大小
+    }
+    // 切片
+    function draw21 (){
+        let canvas = document.getElementById('canvas21');
+        if (!canvas.getContext) return;
+        ctx = canvas.getContext("2d");
+        // let img = new Image();   // 创建一个<img>元素
+        // img.src = './assets/canvas/鸟.jpg'; // 设置图片源地址
+        let img = document.querySelector(".img1");
+        ctx.drawImage(img,50, 50, 1000, 800, 100, 100, 192, 108);  // 参数 1：要绘制的img,  前 4 个是定义图像源的切片位置和大小，后 4 个则是定义切片的目标显示位置和大小。
+    }
+
+    /**
+     * 状态的保存和恢复
+     * Saving and restoring state 是绘制复杂图形时必不可少的操作。
+     *
+     * save() 和 restore()
+     * save 和 restore 方法是用来保存和恢复 canvas 状态的，都没有参数。
+     * Canvas 的状态就是当前画面应用的所有样式和变形的一个快照。
+     * 1、关于 save() ：Canvas状态存储在栈中，每当save()方法被调用后，当前的状态就被推送到栈中保存。
+     *    一个绘画状态包括：
+     *       1. 当前应用的变形（即移动，旋转和缩放）
+     *       2. strokeStyle, fillStyle, globalAlpha, lineWidth, lineCap, lineJoin, miterLimit,
+     *          shadowOffsetX, shadowOffsetY, shadowBlur, shadowColor, globalCompositeOperation 的值
+     *       3. 当前的裁切路径（clipping path）
+     * *** 可以调用任意多次 save方法(类似数组的 push())。
+     * 2、关于restore()：每一次调用 restore 方法，上一个保存的状态就从栈中弹出，所有设定都恢复(类似数组的 pop())。
+     */
+    function draw22(){
+        let canvas = document.getElementById('canvas22');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+
+        ctx.fillRect(0, 0, 150, 150);   // 使用默认设置绘制一个矩形
+        ctx.save();                  // 保存默认状态
+
+        ctx.fillStyle = '#f90'       // 在原有配置基础上对颜色做改变
+        ctx.fillRect(15, 15, 120, 120); // 使用新的设置绘制一个矩形
+        ctx.save();                  // 保存当前状态
+
+        ctx.fillStyle = '#fff'       // 再次改变颜色配置
+        ctx.fillRect(30, 30, 90, 90);   // 使用新的配置绘制一个矩形
+
+        ctx.restore();               // 重新加载之前的颜色状态
+        ctx.fillRect(45, 45, 60, 60);   // 使用上一次的配置绘制一个矩形
+
+        ctx.restore();               // 加载默认颜色配置
+        ctx.fillRect(60, 60, 30, 30);   // 使用加载的配置绘制一个矩形
+    }
+
+    /**
+     * 变形
+     * 1、translate  用来移动 canvas 的**原点**到指定的位置
+     *      translate(x, y) // x 是左右偏移量，y 是上下偏移量
+     *
+     *   在做变形之前先保存状态是一个良好的习惯。大多数情况下，调用 restore 方法比手动恢复原先的状态要简单得多。
+     *   又如果你是在一个循环中做位移但没有保存和恢复 canvas 的状态，很可能到最后会发现怎么有些东西不见了，那是因为它很可能已经超出 canvas 范围以外了。
+     *
+     *   注意：translate 移动的是 canvas 的坐标原点(坐标变换)。
+     * 2、rotate  旋转坐标轴。
+     *      rotate(angle)  // angle 旋转的角度 它是顺时针方向的，以弧度为单位的值。旋转的中心是坐标原点。
+     * 3、scale   增减图形在 canvas 中的像素数目，对形状，位图进行缩小或者放大。
+     *      scale(x, y)  // x,y分别是横轴和纵轴的缩放因子，它们都必须是正值。值比 1.0 小表示缩 小，比 1.0 大则表示放大，值为 1.0 时什么效果都没有。
+     */
+    // translate
+    function draw23() {
+        let canvas = document.getElementById('canvas23');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.save(); // 保存坐原点平移之前的状态
+        ctx.translate(80, 80); // 移动原点
+        ctx.strokeRect(0, 10, 80, 80);
+
+        ctx.restore(); // 恢复到最初状态
+        ctx.strokeStyle = '#990';
+        ctx.strokeRect(10, 10, 80, 80);
+
+        ctx.translate(210, 210);  // 移动原点
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 80, 80);
+    }
+    // rotate
+    function draw24() {
+        let canvas = document.getElementById('canvas24');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = '#f90';
+        ctx.save();
+
+        ctx.translate(100, 100);
+        ctx.rotate(Math.PI / 180 *45); // 旋转45度
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 100, 100)
+        ctx.restore();
+
+        ctx.save();
+        ctx.translate(0, 0);
+        ctx.fillRect(0, 0, 50, 50)
+        ctx.restore();
+    }
+    // scale
+    function draw25() {
+        let canvas = document.getElementById('canvas25');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.beginPath(); // 新建一条path
+        ctx.moveTo(50, 50); // 把画笔移动到指定的坐标
+        ctx.lineTo(200, 50); // 绘制一条从当前位置到指定坐标(200, 50)的直线.
+        ctx.scale(0.5, 0.5)
+        ctx.stroke();
+    }
+    // transform
+
     window.onload = () => {
         testCanvas()
         testTextCanvas()
@@ -711,6 +935,16 @@
         draw16()
         draw17()
         draw18()
+        // draw19()
+        document.querySelector(".img").onclick = function (){
+            draw19 ();
+        }
+        draw20()
+        draw21()
+        draw22();
+        draw23();
+        draw24();
+        draw25();
     }
 </script>
 </html>
