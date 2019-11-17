@@ -267,7 +267,26 @@
 <h2>变形</h2>
 <section>
     <pre>
-        translate
+        1、translate  用来移动 canvas 的**原点**到指定的位置
+             translate(x, y) // x 是左右偏移量，y 是上下偏移量
+          在做变形之前先保存状态是一个良好的习惯。大多数情况下，调用 restore 方法比手动恢复原先的状态要简单得多。
+          又如果你是在一个循环中做位移但没有保存和恢复 canvas 的状态，很可能到最后会发现怎么有些东西不见了，那是因为它很可能已经超出 canvas 范围以外了。
+          注意：translate 移动的是 canvas 的坐标原点(坐标变换)。
+
+        2、rotate  旋转坐标轴。
+             rotate(angle)  // angle 旋转的角度 它是顺时针方向的，以弧度为单位的值。旋转的中心是坐标原点。
+
+        3、scale   增减图形在 canvas 中的像素数目，对形状，位图进行缩小或者放大。
+             scale(x, y)  // x,y分别是横轴和纵轴的缩放因子，它们都必须是正值。值比 1.0 小表示缩 小，比 1.0 大则表示放大，值为 1.0 时什么效果都没有。
+
+        4.transform(变形矩阵)
+             transform(a, b, c, d, e, f)
+                 a 水平缩放
+                 b 水平偏斜
+                 c 垂直偏斜
+                 d 垂直缩放
+                 e 水平移动
+                 f 垂直移动
     </pre>
     <img src="./assets/canvas/translate.png" alt="">
     <canvas id="canvas23" width="300" height="300"></canvas>
@@ -276,6 +295,9 @@
     <canvas id="canvas24" width="300" height="300"></canvas>
     <br>
     <canvas id="canvas25" width="300" height="300"></canvas>
+    <br>
+    <img src="./assets/canvas/transform.jpg" alt="">
+    <canvas id="canvas26" width="300" height="300"></canvas>
 </section>
 </body>
 <script>
@@ -863,6 +885,14 @@
      *      rotate(angle)  // angle 旋转的角度 它是顺时针方向的，以弧度为单位的值。旋转的中心是坐标原点。
      * 3、scale   增减图形在 canvas 中的像素数目，对形状，位图进行缩小或者放大。
      *      scale(x, y)  // x,y分别是横轴和纵轴的缩放因子，它们都必须是正值。值比 1.0 小表示缩 小，比 1.0 大则表示放大，值为 1.0 时什么效果都没有。
+     * 4.transform(变形矩阵)
+     *      transform(a, b, c, d, e, f)
+     *          a 水平缩放
+     *          b 水平偏斜
+     *          c 垂直偏斜
+     *          d 垂直缩放
+     *          e 水平移动
+     *          f 垂直移动
      */
     // translate
     function draw23() {
@@ -908,11 +938,17 @@
         ctx.beginPath(); // 新建一条path
         ctx.moveTo(50, 50); // 把画笔移动到指定的坐标
         ctx.lineTo(200, 50); // 绘制一条从当前位置到指定坐标(200, 50)的直线.
-        ctx.scale(0.5, 0.5)
+        ctx.scale(1, 0.5)
         ctx.stroke();
     }
     // transform
-
+    function draw26 (){
+        let canvas = document.getElementById('canvas26');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.transform(1, 1, 0, 1, 0, 0);
+        ctx.fillRect(0, 0, 100, 100);
+    }
     window.onload = () => {
         testCanvas()
         testTextCanvas()
@@ -945,6 +981,7 @@
         draw23();
         draw24();
         draw25();
+        draw26();
     }
 </script>
 </html>
