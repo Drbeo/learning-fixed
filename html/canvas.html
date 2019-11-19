@@ -299,6 +299,29 @@
     <img src="./assets/canvas/transform.jpg" alt="">
     <canvas id="canvas26" width="300" height="300"></canvas>
 </section>
+<h2>合成</h2>
+<section>
+    <pre>
+        globalCompositeOperation = type
+
+        在前面的所有例子中、，我们总是将一个图形画在另一个之上，对于其他更多的情况，仅仅这样是远远不够的。
+        比如，对合成的图形来说，绘制顺序会有限制。不过，我们可以利用 globalCompositeOperation 属性来改变这种状况。
+    </pre>
+    <canvas id="canvas27" width="300" height="300"></canvas>
+    <canvas id="canvas28" width="300" height="300"></canvas>
+    <canvas id="canvas29" width="300" height="300"></canvas>
+    <canvas id="canvas30" width="300" height="300"></canvas>
+    <canvas id="canvas31" width="300" height="300"></canvas>
+    <canvas id="canvas32" width="300" height="300"></canvas>
+    <canvas id="canvas33" width="300" height="300"></canvas>
+    <canvas id="canvas34" width="300" height="300"></canvas>
+    <canvas id="canvas35" width="300" height="300"></canvas>
+    <canvas id="canvas36" width="300" height="300"></canvas>
+    <canvas id="canvas37" width="300" height="300"></canvas>
+    <canvas id="canvas38" width="300" height="300"></canvas>
+    <canvas id="canvas39" width="300" height="300"></canvas>
+    <canvas id="canvas40" width="300" height="300"></canvas>
+</section>
 </body>
 <script>
     function testCanvas () {
@@ -949,6 +972,182 @@
         ctx.transform(1, 1, 0, 1, 0, 0);
         ctx.fillRect(0, 0, 100, 100);
     }
+
+    /**
+     * 合成
+     *   globalCompositeOperation = type
+     *     type
+     *        1.source-over 默认设置，新图像会覆盖在原有图像。
+     *        2.source-in 仅仅会出现新图像与原来图像重叠部分的新图像，其他区域都变成透明的。(包括其他的老图像区域也会透明)
+     *        3.source-out 仅仅显示新图像与老图像没有重叠部分的新图像，其余部分全部透明。(老图像也不显示)
+     *        4.source-atop 新图像仅仅显示与老图像重叠区域。老图像仍然可以显示。
+     *        5.destination-over 新图像会在老图像的下面。
+     *        6.destination-in 仅仅新老图像重叠部分的老图像被显示，其他区域全部透明。
+     *        7.destination-out 仅仅老图像与新图像没有重叠的部分。 注意显示的是老图像的部分区域。
+     *        8.destination-atop 老图像仅仅仅仅显示重叠部分，新图像会显示在老图像的下面。
+     *        9.lighter 新老图像都显示，但是重叠区域的颜色做加处理。
+     *        10.darken 保留重叠部分最黑的像素。(每个颜色位进行比较，得到最小的)  blue: #0000ff  red: #ff0000  所以重叠部分的颜色：#000000。
+     *        11.lighten 保证重叠部分最量的像素。(每个颜色位进行比较，得到最大的) blue: #0000ff  red: #ff0000  所以重叠部分的颜色：#ff00ff。
+     *        12.xor 重叠部分会变成透明。
+     *        13.copy 只有新图像会被保留，其余的全部被清除(边透明)。
+     *
+     */
+    // source-over
+    function draw27 () {
+        let canvas = document.getElementById('canvas27');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 200, 200);
+        ctx.globalCompositeOperation = 'source-over'; // 全局合成操作
+
+        ctx.fillStyle = '#09f';
+        ctx.fillRect(100, 100, 200, 200);
+    }
+    // source-in
+    function draw28 () {
+        let canvas = document.getElementById('canvas28');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 200, 200);
+        ctx.globalCompositeOperation = 'source-in'; // 全局合成操作
+
+        ctx.fillStyle = '#09f';
+        ctx.fillRect(100, 100, 200, 200);
+    }
+    // source-out
+    function draw29 () {
+        let canvas = document.getElementById('canvas29');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 200, 200);
+        ctx.globalCompositeOperation = 'source-out'; // 全局合成操作
+
+        ctx.fillStyle = '#09f';
+        ctx.fillRect(100, 100, 200, 200);
+    }
+    // source-atop
+    function draw30 () {
+        let canvas = document.getElementById('canvas30');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 200, 200);
+        ctx.globalCompositeOperation = 'source-atop'; // 全局合成操作
+
+        ctx.fillStyle = '#09f';
+        ctx.fillRect(100, 100, 200, 200);
+    }
+    // destination-over
+    function draw31 () {
+        let canvas = document.getElementById('canvas31');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 200, 200);
+        ctx.globalCompositeOperation = 'destination-over'; // 全局合成操作
+
+        ctx.fillStyle = '#09f';
+        ctx.fillRect(100, 100, 200, 200);
+    }
+    // destination-in
+    function draw32 () {
+        let canvas = document.getElementById('canvas32');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 200, 200);
+        ctx.globalCompositeOperation = 'destination-in'; // 全局合成操作
+
+        ctx.fillStyle = '#09f';
+        ctx.fillRect(100, 100, 200, 200);
+    }
+    // destination-out
+    function draw33 () {
+        let canvas = document.getElementById('canvas33');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 200, 200);
+        ctx.globalCompositeOperation = 'destination-out'; // 全局合成操作
+
+        ctx.fillStyle = '#09f';
+        ctx.fillRect(100, 100, 200, 200);
+    }
+    // destination-atop
+    function draw34 () {
+        let canvas = document.getElementById('canvas34');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 200, 200);
+        ctx.globalCompositeOperation = 'destination-atop'; // 全局合成操作
+
+        ctx.fillStyle = '#09f';
+        ctx.fillRect(100, 100, 200, 200);
+    }
+    // lighter
+    function draw35 () {
+        let canvas = document.getElementById('canvas35');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 200, 200);
+        ctx.globalCompositeOperation = 'lighter'; // 全局合成操作
+
+        ctx.fillStyle = '#09f';
+        ctx.fillRect(100, 100, 200, 200);
+    }
+    // darken
+    function draw36 () {
+        let canvas = document.getElementById('canvas36');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 200, 200);
+        ctx.globalCompositeOperation = 'darken'; // 全局合成操作
+
+        ctx.fillStyle = '#09f';
+        ctx.fillRect(100, 100, 200, 200);
+    }
+    // lighten
+    function draw37 () {
+        let canvas = document.getElementById('canvas37');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 200, 200);
+        ctx.globalCompositeOperation = 'lighten'; // 全局合成操作
+
+        ctx.fillStyle = '#09f';
+        ctx.fillRect(100, 100, 200, 200);
+    }
+    // xor
+    function draw38 () {
+        let canvas = document.getElementById('canvas38');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 200, 200);
+        ctx.globalCompositeOperation = 'xor'; // 全局合成操作
+
+        ctx.fillStyle = '#09f';
+        ctx.fillRect(100, 100, 200, 200);
+    }
+    // copy
+    function draw39 () {
+        let canvas = document.getElementById('canvas39');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(0, 0, 200, 200);
+        ctx.globalCompositeOperation = 'copy'; // 全局合成操作
+
+        ctx.fillStyle = '#09f';
+        ctx.fillRect(100, 100, 200, 200);
+    }
     window.onload = () => {
         testCanvas()
         testTextCanvas()
@@ -977,11 +1176,24 @@
         }
         draw20()
         draw21()
-        draw22();
-        draw23();
-        draw24();
-        draw25();
-        draw26();
+        draw22()
+        draw23()
+        draw24()
+        draw25()
+        draw26()
+        draw27()
+        draw28()
+        draw29()
+        draw30()
+        draw31()
+        draw32()
+        draw33()
+        draw34()
+        draw35()
+        draw36()
+        draw37()
+        draw38()
+        draw39()
     }
 </script>
 </html>
