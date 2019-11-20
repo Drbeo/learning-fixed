@@ -18,6 +18,7 @@
             max-width: 300px;
             max-height: 300px;
             object-fit: scale-down;
+            vertical-align: top;
         }
         .img1 {
             display: none;
@@ -306,6 +307,22 @@
 
         在前面的所有例子中、，我们总是将一个图形画在另一个之上，对于其他更多的情况，仅仅这样是远远不够的。
         比如，对合成的图形来说，绘制顺序会有限制。不过，我们可以利用 globalCompositeOperation 属性来改变这种状况。
+        合成
+            globalCompositeOperation = type
+            type
+                1.source-over 默认设置，新图像会覆盖在原有图像。
+                2.source-in 仅仅会出现新图像与原来图像重叠部分的新图像，其他区域都变成透明的。(包括其他的老图像区域也会透明)
+                3.source-out 仅仅显示新图像与老图像没有重叠部分的新图像，其余部分全部透明。(老图像也不显示)
+                4.source-atop 新图像仅仅显示与老图像重叠区域。老图像仍然可以显示。
+                5.destination-over 新图像会在老图像的下面。
+                6.destination-in 仅仅新老图像重叠部分的老图像被显示，其他区域全部透明。
+                7.destination-out 仅仅老图像与新图像没有重叠的部分。 注意显示的是老图像的部分区域。
+                8.destination-atop 老图像仅仅仅仅显示重叠部分，新图像会显示在老图像的下面。
+                9.lighter 新老图像都显示，但是重叠区域的颜色做加处理。(每个颜色位进行相加) blue: #0066ff  red: #ff6600  所以重叠部分的颜色：#ffccff。
+                10.darken 保留重叠部分最黑的像素。(每个颜色位进行比较，得到最小的)  blue: #0000ff  red: #ff0000  所以重叠部分的颜色：#000000。
+                11.lighten 保证重叠部分最亮的像素。(每个颜色位进行比较，得到最大的) blue: #0000ff  red: #ff0000  所以重叠部分的颜色：#ff00ff。
+                12.xor 重叠部分会变成透明。
+                13.copy 只有新图像会被保留，其余的全部被清除(边透明)。
     </pre>
     <canvas id="canvas27" width="300" height="300"></canvas>
     <canvas id="canvas28" width="300" height="300"></canvas>
@@ -320,7 +337,28 @@
     <canvas id="canvas37" width="300" height="300"></canvas>
     <canvas id="canvas38" width="300" height="300"></canvas>
     <canvas id="canvas39" width="300" height="300"></canvas>
+</section>
+<h2>裁剪路径</h2>
+<section>
+    <pre>
+        裁剪路径
+            clip()
+
+            把已经创建的路径转换成裁剪路径。
+            裁剪路径的作用是遮罩。只显示裁剪路径内的区域，裁剪路径外的区域会被隐藏。
+                注意：clip() 只能遮罩在这个方法调用之后绘制的图像，如果是 clip() 方法调用之前绘制的图像，则无法实现遮罩。
+    </pre>
+    <img src="./assets/canvas/clip().png" alt="">
     <canvas id="canvas40" width="300" height="300"></canvas>
+</section>
+<h2>动画</h2>
+<section>
+    <pre>
+
+    </pre>
+    <canvas id="canvas41" width="300" height="300"></canvas>
+    <canvas id="canvas42" width="300" height="300"></canvas>
+    <canvas id="canvas43" width="300" height="300"></canvas>
 </section>
 </body>
 <script>
@@ -985,9 +1023,9 @@
      *        6.destination-in 仅仅新老图像重叠部分的老图像被显示，其他区域全部透明。
      *        7.destination-out 仅仅老图像与新图像没有重叠的部分。 注意显示的是老图像的部分区域。
      *        8.destination-atop 老图像仅仅仅仅显示重叠部分，新图像会显示在老图像的下面。
-     *        9.lighter 新老图像都显示，但是重叠区域的颜色做加处理。
+     *        9.lighter 新老图像都显示，但是重叠区域的颜色做加处理。(每个颜色位进行相加) blue: #0066ff  red: #ff6600  所以重叠部分的颜色：#ffccff。
      *        10.darken 保留重叠部分最黑的像素。(每个颜色位进行比较，得到最小的)  blue: #0000ff  red: #ff0000  所以重叠部分的颜色：#000000。
-     *        11.lighten 保证重叠部分最量的像素。(每个颜色位进行比较，得到最大的) blue: #0000ff  red: #ff0000  所以重叠部分的颜色：#ff00ff。
+     *        11.lighten 保证重叠部分最亮的像素。(每个颜色位进行比较，得到最大的) blue: #0000ff  red: #ff0000  所以重叠部分的颜色：#ff00ff。
      *        12.xor 重叠部分会变成透明。
      *        13.copy 只有新图像会被保留，其余的全部被清除(边透明)。
      *
@@ -1093,11 +1131,16 @@
         let canvas = document.getElementById('canvas35');
         if (!canvas.getContext) return;
         let ctx = canvas.getContext("2d");
-        ctx.fillStyle = '#f90';
+        // ctx.fillStyle = '#f90';
+        ctx.fillStyle = '#f60';
         ctx.fillRect(0, 0, 200, 200);
         ctx.globalCompositeOperation = 'lighter'; // 全局合成操作
 
-        ctx.fillStyle = '#09f';
+        // ctx.fillStyle = '#09f';
+        ctx.fillStyle = '#06f';
+        // ctx.fillStyle = '#FFF'; // 全部相加
+        // ctx.fillStyle = '#FCF'; // 全部相加
+
         ctx.fillRect(100, 100, 200, 200);
     }
     // darken
@@ -1110,6 +1153,7 @@
         ctx.globalCompositeOperation = 'darken'; // 全局合成操作
 
         ctx.fillStyle = '#09f';
+        // ctx.fillStyle = '#090';
         ctx.fillRect(100, 100, 200, 200);
     }
     // lighten
@@ -1122,6 +1166,7 @@
         ctx.globalCompositeOperation = 'lighten'; // 全局合成操作
 
         ctx.fillStyle = '#09f';
+        // ctx.fillStyle = '#f9f';
         ctx.fillRect(100, 100, 200, 200);
     }
     // xor
@@ -1148,6 +1193,103 @@
         ctx.fillStyle = '#09f';
         ctx.fillRect(100, 100, 200, 200);
     }
+
+    /**
+     * 裁剪路径
+     *     clip()
+     *
+     * 把已经创建的路径转换成裁剪路径。
+     * 裁剪路径的作用是遮罩。只显示裁剪路径内的区域，裁剪路径外的区域会被隐藏。
+     *     注意：clip() 只能遮罩在这个方法调用之后绘制的图像，如果是 clip() 方法调用之前绘制的图像，则无法实现遮罩。
+     *
+     */
+    // clip()
+    function draw40 () {
+        let canvas = document.getElementById('canvas40');
+        if (!canvas.getContext) return;
+        let ctx = canvas.getContext("2d");
+
+        ctx.beginPath();
+        ctx.arc(70, 70, 50, 0, Math.PI * 2);
+        ctx.clip()
+
+        ctx.fillStyle = '#f90';
+        ctx.fillRect(20, 20, 100, 100)
+    }
+
+    /**
+     * 动画
+     *  动画的基本步骤
+     *      1.清空 canvas 再绘制每一帧动画之前，需要清空所有。清空所有最简单的做法就是 clearRect() 方法。
+     *      2.保存 canvas 状态 如果在绘制的过程中会更改 canvas 的状态(颜色、移动了坐标原点等),又在绘制每一帧时都是原始状态的话，则最好保存下 canvas 的状态
+     *      3.绘制动画图形这一步才是真正的绘制动画帧
+     *      4.恢复 canvas 状态如果你前面保存了 canvas 状态，则应该在绘制完成一帧之后恢复 canvas 状态。
+     *  控制动画
+     *      我们可用通过 canvas 的方法或者自定义的方法把图像绘制到 canvas 上。正常情况，我们能看到绘制的结果是在脚本执行结束之后。
+     *      例如，我们不可能在一个 for 循环内部完成动画。也就是，为了执行动画，我们需要一些可以定时执行重绘的方法。一般用到下面三个方法：
+     *      setInterval()
+     *      setTimeout()
+     *      requestAnimationFrame()
+     */
+    let sun;
+    let earth;
+    let moon;
+    // 案例1：太阳系
+    function init(){
+        sun = new Image();
+        earth = new Image();
+        moon = new Image();
+        sun.src = "./assets/canvas/sun.png";
+        earth.src = "./assets/canvas/earth.png";
+        moon.src = "./assets/canvas/moon.png";
+        sun.onload = function (){
+            requestAnimationFrame(draw41);
+        }
+    }
+    init();
+    function draw41(){
+        let canvas = document.querySelector("#canvas41");
+        ctx = canvas.getContext("2d");
+        // ctx.globalCompositeOperation = 'source-over';
+
+        ctx.clearRect(0, 0, 300, 300); // 清空所有的内容
+        /* 绘制 太阳*/
+        ctx.drawImage(sun, 0, 0, 300, 300);
+
+        ctx.save();
+        ctx.translate(150, 150); // 移动原点为  太阳系中心
+        ctx.fillStyle = '#f90'
+        ctx.fillRect(-5, -5, 10, 10)
+
+        let time = new Date();
+        // 绘制地球
+        ctx.rotate((2 * Math.PI / 60) * time.getSeconds() + (2 * Math.PI / 60000) * time.getMilliseconds()) // 旋转的角度(angle)，它是顺时针方向的，以弧度为单位的值。
+        ctx.translate(100, 0);
+        ctx.drawImage(earth, -12, -12)
+
+        // 绘制earth轨道
+        ctx.beginPath();
+        ctx.translate(-100, 0);
+        ctx.strokeStyle = "rgba(213,255,14,0.44)";
+        ctx.arc(0, 0, 100, 0, 2 * Math.PI)
+        ctx.stroke()
+
+        // 绘制月球轨道
+        ctx.beginPath();
+        ctx.translate(100, 0);
+        ctx.strokeStyle = "rgba(255,255,255,.3)";
+        ctx.arc(0, 0, 40, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        // 绘制月球
+        ctx.rotate(2 * Math.PI / 6 * time.getSeconds() + 2 * Math.PI / 6000 * time.getMilliseconds());
+        ctx.translate(40, 0);
+        ctx.drawImage(moon, -3.5, -3.5);
+        ctx.restore();
+
+        requestAnimationFrame(draw41);
+    }
+
     window.onload = () => {
         testCanvas()
         testTextCanvas()
@@ -1194,6 +1336,7 @@
         draw37()
         draw38()
         draw39()
+        draw40()
     }
 </script>
 </html>
