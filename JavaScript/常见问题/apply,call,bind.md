@@ -5,8 +5,9 @@
 
 用`apply`修复`getAge()`调用：
 ```js
-function getAge() { let y = new
-   Date().getFullYear(); return y - this.birth; 
+function getAge() { 
+    let y = new Date().getFullYear();
+    return y - this.birth; 
 }
 
 let xiaoming = {
