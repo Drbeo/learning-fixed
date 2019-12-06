@@ -42,7 +42,7 @@ var n = str.replace("Microsoft", "W3School"); // 只替换首个匹配 对大小
 // 转换为大写和小写
 var text1 = "Hello World!";       // 字符串
 var text2 = text1.toUpperCase();  // text2 是被转换为大写的 text1
-var text3= text1.toLowerCase();  // text3 是被转换为小写的 text1
+var text3 = text1.toLowerCase();  // text3 是被转换为小写的 text1
 
 text3 = text1.concat(" ",text2); // 连接两个或多个字符串 可以直接使用 + ‘字符串’ + 或`模板字符串拼接`
 text3.trim()  // 只能删除字符串两端的空白符
