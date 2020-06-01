@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG</title>
+</head>
+<style>
+    #svg1 {
+        width: 200px;
+    }
+</style>
+<body>
+    <p>SVG 是一种基于 XML 语法的图像格式，全称是可缩放矢量图（Scalable Vector Graphics）。
+        其他图像格式都是基于像素处理的，SVG 则是属于对图像的形状描述，所以它本质上是文本文件，体积较小，且不管放大多少倍都不会失真。</p>
+    <svg id="svg1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
+         preserveAspectRatio="xMidYMid meet">
+        <circle id="mycircle" cx="40" cy="30" r="20" />
+    </svg>
+    <p>SVG 代码也可以写在一个独立文件中，然后用img、object、embed、iframe等标签插入网页。</p>
+<!--        <img src="circle.svg">-->
+<!--        <object id="object" data="circle.svg" type="image/svg+xml"></object>-->
+<!--        <embed id="embed" src="icon.svg" type="image/svg+xml">-->
+<!--        <iframe id="iframe" src="icon.svg"></iframe>-->
+    <p>CSS 也可以使用 SVG 文件。</p>
+<!--    .logo {-->
+<!--        background: url(icon.svg);-->
+<!--    }-->
+<p>SVG 文件还可以转为 BASE64 编码，然后作为 Data URI 写入网页。</p>
+<!--    <img src="data:image/svg+xml;base64,[data]">-->
+
+    <svg width="100" height="100" viewBox="50 50 50 50">
+        <circle id="mycircle" cx="50" cy="50" r="50" />
+    </svg>
+</svg>
+</body>
+</html>

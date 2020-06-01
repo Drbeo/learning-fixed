@@ -41,6 +41,26 @@ const Drbeo = {
             }
         }
     },
+    /**
+     * 获取地址栏查询参数
+     * @param name 参数名
+     * @return {string|null}
+     */
+    getQueryString: function (name) {
+        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        let r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    },
+    /**
+     * 查询参数格式化
+     * @param data 字符串
+     * @return {*}
+     */
+    queryDataInit: function (data) {
+        data = data.replace(/%20/g, '');
+        data = data.replace(/,/g, '&');
+        return data;
+    },
 }
 export default Drbeo
 
