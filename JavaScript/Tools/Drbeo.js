@@ -23,9 +23,9 @@ const Drbeo = {
      * @param type {String} 图片mine
      * @return {Blob} Blob
      */
-    imageBase64ToBlob(urlData, type='image/jpeg') {
+    imageBase64ToBlob(urlData, type = 'image/jpeg') {
         try {
-            let arr = urlData.split(',')
+            let arr = urlData.split(',');
             let mime = arr[0].match(/:(.*?);/)[1] || type;
             // 去掉url的头，并转化为byte
             let bytes = window.atob(arr[1]);
@@ -43,39 +43,39 @@ const Drbeo = {
         } catch (e) {
             let ab = new ArrayBuffer(0);
             return new Blob([ab], {
-                type: type,
+                type: type
             });
         }
     },
-     /**
+    /**
      * blob转本地url
      */
     blobToUrl(blob_data) {
-        return URL.createObjectURL(blob_data)
+        return URL.createObjectURL(blob_data);
     },
     /**
      * Blob 转base64
      */
     blobToBase64(blob_data, callback) {
-        let reader = new FileReader()
+        let reader = new FileReader();
         reader.onload = (e) => {
             if (callback) {
-                callback(e.target.result)
+                callback(e.target.result);
             }
-        }
-        reader.readAsDataURL(blob_data)
+        };
+        reader.readAsDataURL(blob_data);
     },
-        /**
+    /**
      * url转Blob
      * @param the_url
      * @param callback
      */
     urlToBlob(the_url, callback) {
         let xhr = new XMLHttpRequest();
-        xhr.open("get", the_url, true);
-        xhr.responseType = "blob";
+        xhr.open('get', the_url, true);
+        xhr.responseType = 'blob';
         xhr.onload = function () {
-            if (this.status == 200) {
+            if (this.status === 200) {
                 if (callback) {
                     callback(this.response);
                 }
@@ -83,7 +83,7 @@ const Drbeo = {
         };
         xhr.send();
     },
-        /***********************************************************************************
+    /***********************************************************************************
      *
      * 函数防抖（debounce）和函数节流（throttle）都是为了缓解函数频繁调用，它们相似，但有区别
      */
@@ -93,14 +93,14 @@ const Drbeo = {
      * @param delay {Number} 延迟时间ms
      * @return {Function} 执行函数
      */
-    debounce (fn, delay) {
-        let timer = null
+    debounce(fn, delay) {
+        let timer = null;
         return function () {
-            if (timer) clearTimeout(timer)
+            if (timer) clearTimeout(timer);
             timer = setTimeout(() => {
-                fn.apply(this, arguments)
-            }, delay)
-        }
+                fn.apply(this, arguments);
+            }, delay);
+        };
     },
     /**
      * 节流
@@ -123,7 +123,7 @@ const Drbeo = {
                     fn.apply(this, arguments);
                 }, cycle);
             }
-        }
+        };
     },
     /**
      * 获取地址栏查询参数
@@ -131,9 +131,10 @@ const Drbeo = {
      * @return {string|null}
      */
     getQueryString: function (name) {
-        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
         let r = window.location.search.substr(1).match(reg);
-        if (r != null) return unescape(r[2]); return null;
+        if (r != null) return unescape(r[2]);
+        return null;
     },
     /**
      * 查询参数格式化
@@ -144,7 +145,7 @@ const Drbeo = {
         data = data.replace(/%20/g, '');
         data = data.replace(/,/g, '&');
         return data;
-    },
-}
-export default Drbeo
+    }
+};
+export default Drbeo;
 
