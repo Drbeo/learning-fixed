@@ -1,21 +1,39 @@
 # http://editorconfig.org
-root = true
+# https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties  属性列表
 
-[*]
-charset = utf-8
-indent_style = space
-indent_size = 4
-end_of_line = lf
-insert_final_newline = true
-trim_trailing_whitespace = true
+root = true                         # 根目录的配置文件，编辑器会由当前目录向上查找，如果找到 `root = true` 的文件，则不再查找
 
-[*.{js,jsx,ts,tsx,vue}]
-indent_style = space
-indent_size = 4
-trim_trailing_whitespace = true
-insert_final_newline = true
+[*]                                 # 匹配所有的文件
+charset = utf-8                     # 文件编码是 utf-8
+indent_style = space                # 空格缩进
+indent_size = 2                     # 缩进空格为4个
+end_of_line = lf                    # 文件换行符是 linux 的 `\n`
+trim_trailing_whitespace = true     # 不保留行末的空格
+insert_final_newline = true         # 文件末尾添加一个空行
+curly_bracket_next_line = false     # 大括号不另起一行 true, false
+spaces_around_operators = true      # 运算符两遍都有空格 true, false, hybrid
+indent_brace_style = K&R            # 表示在代码块中使用大括号的样式 K&R/1tbs, Allman, GNU, Horstmann, etc.
+wildcard_import_limit = int         # 表示将多个导入自动折叠为通配符（或将通配符自动扩展为显式导入）之前所需的导入数量
+block_comment = char
+line_comment = char
+block_comment_start = char
+block_comment_end = char
+max_line_length = off
 
 [*.md]
 insert_final_newline = false
 trim_trailing_whitespace = false
-max_line_length = 300
+max_line_length = off
+
+[*.py]
+continuation_indent_size = unsigned # 表示连续缩进大小。 有助于区分代码块和续行 unsigned integer
+
+[*.{js, jsx, ts, tsx}]                              # 对所有的 js 文件生效
+quote_type = single                 # 字符串使用单引号
+
+[*.{html,less,scss,sass,styl,pcss,css,json}]            # 对所有 html,less,scss,sass,styl,pcss,css,json 文件生效
+quote_type = double                 # 字符串使用双引号
+
+[package.json]                      # 对 package.json 生效
+indent_style = space
+indent_size = 2                     # 使用2个空格缩进
