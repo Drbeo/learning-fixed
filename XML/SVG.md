@@ -20,9 +20,9 @@
 
 * style 属性用来定义 CSS 属性
     - fill 填充颜色（rgb 值、颜色名或者十六进制值）
+    - fill-opacity 填充颜色透明度（合法的范围是：0 - 1）
     - stroke 边框的颜色
     - stroke-width 边框的宽度
-    - fill-opacity 填充颜色透明度（合法的范围是：0 - 1）
     - stroke-opacity 边框颜色的透明度（合法的范围是：0 - 1）
     - opacity 整个元素的透明值（合法的范围是：0 - 1）
 * transform 用来定义SVG的基本变换
@@ -499,22 +499,158 @@ path 标签用来创建一条路径，路径元素的基本属性是路径数据
 ### animateTransform
 
 ### SVG 滤镜
-* feBlend
-* feColorMatrix
-* feComponentTransfer
-* feComposite
-* feConvolveMatrix
-* feDiffuseLighting
-* feDisplacementMap
-* feFlood
-* feGaussianBlur
-* feImage
-* feMerge
-* feMorphology
-* feOffset
-* feSpecularLighting
-* feTile
-* feTurbulence
-* feDistantLight
-* fePointLight
-* feSpotLight
+SVG过滤器（也称为滤镜）用来给SVG图形添加特效，和PS软件中的滤镜效果类似。
+* filter 引用一个滤镜
+* feBlend 图片混合
+* feColorMatrix 颜色变换
+* feComponentTransfer 
+  - feFuncR
+  - feFuncG
+  - feFuncB
+  - feFuncA
+* feComposite 图片合成
+* feConvolveMatrix 卷积变换
+* feDiffuseLighting 散射光
+* feDisplacementMap 位移图
+* feFlood 探照灯
+* feGaussianBlur 高斯模糊
+* feImage 图像
+* feMerge 合并
+* feMorphology 变形
+* feOffset 投影效果
+* feSpecularLighting 特殊光照
+* feTile 瓦片效果
+* feTurbulence 紊乱效果
+* feDistantLight 远光效果
+* fePointLight 点射效果
+* feSpotLight 聚光效果
+
+#### SVG高斯模糊
+
+所有的SVG过滤器定义在一个 `<defs> `元素中。`<defs>` 元素是definition的简写，用来包含特定元素的定义。
+
+`<filter>` 元素用来定义一个SVG过滤器。`<filter>` 元素有一个必需的id属性用来唯一标识该过滤器。然后图形通过这个id来应用该过滤器。
+* <filter> 标签的 id 属性可为滤镜定义一个唯一的名称（同一滤镜可被文档中的多个元素使用）
+* filter:url 属性用来把元素链接到滤镜。当链接滤镜 id 时，和CSS id选择器语法类似，要使用 `#` 字符
+* 滤镜效果是通过 <feGaussianBlur> 标签进行定义的。
+* fe前缀是filter effects的缩写，可用于所有的滤镜。
+* <feGaussianBlur> 标签的 stdDeviation 属性可定义模糊的程度
+* in="SourceGraphic" 表示效果应用于整个图形元素
+```html
+<svg height="110" width="110">
+  <defs>
+    <filter id="f1" x="0" y="0">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="20"></feGaussianBlur>
+    </filter>
+  </defs>
+  <rect width="90" height="90" stroke="green" stroke-width="3" fill="yellow" filter="url(#f1)"></rect>
+</svg>
+```
+<svg height="110" width="110">
+  <defs>
+    <filter id="f1" x="0" y="0">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="20"></feGaussianBlur>
+    </filter>
+  </defs>
+  <rect width="90" height="90" stroke="green" stroke-width="3" fill="yellow" filter="url(#f1)"></rect>
+</svg>
+
+####  SVG投影效果
+```html
+<svg height="140" width="140">
+  <defs>
+    <filter id="f4" x="0" y="0" width="200%" height="200%">
+      <feOffset result="offOut" in="SourceGraphic" dx="20" dy="20"></feOffset>
+      <feColorMatrix result="matrixOut" in="offOut" type="matrix" 
+      values="0.5 0 0 0   0 0 0.5 0 0   0 0 0 0.5 0   0 0 0 0 1 0"></feColorMatrix>
+      <feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="10"></feGaussianBlur>
+      <feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend>
+    </filter>
+  </defs>
+  <rect width="90" height="90" stroke="green" stroke-width="3" fill="yellow" filter="url(#f4)"></rect>
+</svg>
+```
+<svg height="140" width="140">
+  <defs>
+    <filter id="f4" x="0" y="0" width="200%" height="200%">
+      <feOffset result="offOut" in="SourceGraphic" dx="20" dy="20"></feOffset>
+      <feColorMatrix result="matrixOut" in="offOut" type="matrix" 
+      values="0.5 0 0 0   0 0 0.5 0 0   0 0 0 0.5 0   0 0 0 0 1 0"></feColorMatrix>
+      <feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="10"></feGaussianBlur>
+      <feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend>
+    </filter>
+  </defs>
+  <rect width="90" height="90" stroke="green" stroke-width="3" fill="yellow" filter="url(#f4)"></rect>
+</svg>
+
+* 定义1个矩形（rect）元素和2个滤镜元素feOffset和feBlend
+* rect元素通过id（为f1）链接到滤镜feOffset，表示将产生一个在x和y方向上偏移（20px，20px）的投影
+* feBlend滤镜效果使得源元素覆盖在投影元素之上
+* in="SourceGraphic" 表示效果应用于整个图形元素
+* in="SourceGraphic" 只把模糊效果使用在Alpha通道上，而不是整个RGBA像素。
+* 在例子1上通过feGaussianBlur滤镜添加了模糊效果，该模糊效果只应用在投影元素上。
+* stdDeviation属性用来定义高斯模糊的程度。
+* <feColorMatrix> 过滤器用来把投影图片的RGB色值分别调整为原来的0.2倍，效果就是图片变暗接近黑色，如果把矩阵乘法的系数调整为0，就是black颜色=rbga（0,0,0,1)。
+
+#### SVG线性渐变
+和CSS3一样，SVG也支持渐变，渐变就是从一个颜色到另外一个颜色的平滑过渡，SVG支持单个元素使用多个渐变。渐变方式有两种：线性和径向。
+
+<linearGradient> 元素必须被包含在一个 <defs> 标签中。如前面所述，<defs> 标签用来包含特殊元素（如滤镜、渐变等）。
+
+线性渐变可以被定义为水平、垂直或角度渐变：
+* 当y1和y2相等，x1和x2不同时，创建水平渐变
+* 当x1和x2相等，y1和y2不同时，创建垂直渐变
+* 当y1和y2不同并且x1和x2也不同时，创建角度渐变（Angular gradients）
+* <linearGradient> 标签的id属性定义了该渐变的唯一标识名称
+* 渐变的颜色范围可以由2个或多个颜色组成。每一种颜色都通过一个<stop>标签来指定。 offset属性用来定义渐变颜色开始和结束的位置。
+* fill 属性把椭圆（ellipse）元素链接到该渐变。
+```html
+<svg height="150" width="400">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1"></stop>
+      <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1"></stop>
+    </linearGradient>
+  </defs>
+  <ellipse cx="200" cy="70" rx="85" ry="55" fill="url(#grad1)"></ellipse>
+    <text fill="#ffffff" font-size="45" font-family="Verdana" x="150" y="86">SVG</text>
+</svg>
+```
+<svg height="150" width="400">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1"></stop>
+      <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1"></stop>
+    </linearGradient>
+  </defs>
+  <ellipse cx="200" cy="70" rx="85" ry="55" fill="url(#grad1)"></ellipse>
+  <text fill="#ffffff" font-size="45" font-family="Verdana" x="200" y="86">SVG</text>
+</svg>
+
+#### SVG径向渐变
+* <radialGradient> 标签的id属性定义了该渐变的唯一标识名称
+* cx, cy 和 r 属性定义了最外面的圆，fx 和 fy 定义了最里面的圆
+* 渐变的颜色范围可以由2个或多个颜色组成。每个颜色通过一个 <stop> 标签来指定。offset属性用来定义渐变颜色开始和结束的位置。
+* fill 属性把椭圆（ellipse）元素链接到该渐变。
+修改cx, cy, r, fx, fy的值，你就可以实现不同的径向渐变效果。
+
+```html
+<svg height="150" width="500">
+  <defs>
+    <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color:rgb(255,255,255);      stop-opacity:0"></stop>
+      <stop offset="100%" style="stop-color:rgb(0,0,255);stop-opacity:1"></stop>
+    </radialGradient>
+  </defs>
+  <ellipse cx="200" cy="70" rx="85" ry="55" fill="url(#grad1)"></ellipse>
+</svg>
+```
+<svg height="150" width="500">
+  <defs>
+    <radialGradient id="grad2" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color:rgb(255,255,255);      stop-opacity:0"></stop>
+      <stop offset="100%" style="stop-color:rgb(0,0,255);stop-opacity:1"></stop>
+    </radialGradient>
+  </defs>
+  <ellipse cx="200" cy="70" rx="85" ry="55" fill="url(#grad2)"></ellipse>
+</svg>
