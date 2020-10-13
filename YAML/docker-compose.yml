@@ -1,0 +1,55 @@
+# https://www.cnblogs.com/minseo/p/11548177.html
+# Docker-Compose标准模板文件应该包含version、services、networks 三大部分，最关键的是services和networks两个部分。
+version: '3'
+services:
+  web:
+    # image是指定服务的镜像名称或镜像ID。如果镜像在本地不存在，Compose将会尝试拉取镜像。
+    image: "test-docker"
+    # 服务除了可以基于指定的镜像，还可以基于一份Dockerfile，在使用up启动时执行构建任务，构建标签是build，可以指定Dockerfile所在文件夹的路径。
+    # Compose将会利用Dockerfile自动构建镜像，然后使用镜像启动服务容器。
+    # build: /path/to/build/dir
+    # 也可以是相对路径，只要上下文确定就可以读取到Dockerfile。
+    # build: ./dir
+    # 设定上下文根目录，然后以该目录为准指定Dockerfile。
+     build:
+       context: ../ # context选项可以是Dockerfile的文件路径，也可以是到链接到git仓库的url，当提供的值是相对路径时，被解析为相对于撰写文件的路径，此目录也是发送到Docker守护进程的context
+       dockerfile: path/of/Dockerfile # 使用dockerfile文件来构建，必须指定构建路径
+    # build都是一个目录，如果要指定Dockerfile文件需要在build标签的子级标签中使用dockerfile标签指定。
+    # 如果同时指定image和build两个标签，那么Compose会构建镜像并且把镜像命名为image值指定的名字。
+    # build: .
+    command: bundle exec thin -p 3000 # 使用command可以覆盖容器启动后默认执行的命令。
+    # Compose的容器名称格式是：<项目名称><服务名称><序号>
+    container_name: app # 可以自定义项目名称、服务名称，但如果想完全控制容器的命名，可以使用标签指定
+    # 在使用Compose时，最大的好处就是少打启动命令，但一般项目容器启动的顺序是有要求的，如果直接从上到下启动容器，必然会因为容器依赖问题而启动失败。
+    # 例如在没启动数据库容器的时候启动应用容器，应用容器会因为找不到数据库而退出。depends_on标签用于解决容器的依赖、启动先后的问题
+    depends_on:
+      - db
+      - redis
+#    YAML文件定义的容器会先启动redis和db两个服务，最后才启动web 服务。
+#    version: '2'
+#    services:
+#      web:
+#        build: .
+#        depends_on:
+#          - db
+#          - redis
+#      redis:
+#        image: redis
+#      db:
+#        image: postgres
+    # 将PID模式设置为主机PID模式，跟主机系统共享进程命名空间。容器使用pid标签将能够访问和操纵其他容器和宿主机的名称空间。
+    pid: "host"
+    # ports用于映射端口的标签。
+    # 　　使用HOST:CONTAINER格式或者只是指定容器的端口，宿主机会随机映射端口。
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/code
+      - logvolume01:/var/log
+links:
+  - redis
+redis:
+  image: redis
+  volumes:
+  logvolume01: {}
+
