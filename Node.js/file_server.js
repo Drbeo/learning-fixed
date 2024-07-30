@@ -14,6 +14,11 @@ console.log(workDir, process.argv)
 // let filePath = path.join(workDir, 'output1.txt')
 
 let server = http.createServer((request, response) => {
+    if (path.normalize(decodeURI(request.url)) !== decodeURI(request.url)) {
+        response.statusCode = 403;
+        response.end();
+        return;
+    }
     let pathName = url.parse(request.url).pathname;
     let filePath = path.join(workDir, pathName);
     fs.stat(filePath, (err, stats) => {
